@@ -1,0 +1,92 @@
+.btn-details {
+    border: none;
+    border-radius: 100px;
+    outline: none;
+
+    padding: 1rem 5rem;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: $color-text-light;
+    background-image: linear-gradient(to left bottom, $color-primary, $color-primary-dark);
+    cursor: pointer;
+    box-shadow: 0 1rem 1rem rgba(0,0,0, .3);
+    transition: all.3s;
+
+    &:hover {
+        transform: scale(1.05);
+        background-image: linear-gradient(to bottom, $color-primary-light, $color-primary-dark 50%, $color-primary-dark);
+    }
+
+    &:active {
+        transform: translateY(3px);
+    }
+
+    &--big {
+        align-self: start;
+        font-size: 2.5rem;
+        background-image: linear-gradient(to left bottom, $color-text-light, $color-text);
+        font-weight: 300;
+        padding: 1.5rem 3rem;
+        animation: move-from-bottom 1.5s ease-out;
+    }
+}
+
+.btn-save {
+    grid-column: 1 / -1;
+    justify-self: center;
+
+    margin-top: 2rem;
+    border: none;
+    border-radius: 100px;
+    outline: none;
+    padding: 1rem 5rem;
+    font-size: 2rem;
+    font-weight: 700;
+    color: $color-text-light;
+    background-image: linear-gradient(to left bottom, $color-primary, $color-primary-dark);
+    cursor: pointer;
+    box-shadow: 0 1rem 1rem rgba(0,0,0, .3);
+
+    &:hover {
+        transform: scale(1.05);
+        background-image: linear-gradient(to bottom, $color-primary-light, $color-primary-dark 50%, $color-primary-dark);
+    }
+
+    &:active {
+        transform: translateY(3px);
+    }
+
+    &__change-pass {
+        margin-top: 1rem;
+        justify-self: start;
+        font-size: 1.8rem;
+        font-weight: 400;
+        padding: .7rem 4rem;
+    }
+
+    &__2factor {
+        font-size: 1.6rem;
+        font-weight: 400;
+        padding: 1rem 2rem;
+        margin-bottom: 3rem;
+    }
+}
+
+
+.btn-sign-log {
+    grid-column: 1 / -1;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    font-size: 2rem;
+    color: $color-text-light;
+    border-radius: 10px;
+    padding: 1rem 2rem;
+    background-color: $color-primary-dark;
+    transition: all .3s;
+
+    &:hover {
+        background-color: $color-primary;
+    }
+}

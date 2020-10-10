@@ -1,0 +1,34 @@
+.container {
+    max-width: 120rem;
+    // position: relative;
+    // height: 80rem;
+    background-color: #ffffff;
+    margin: 6rem auto;
+    border-radius: 5px;
+    overflow: visible;
+    position: relative;
+    transition: opacity .5s;
+    
+    display: grid;
+    grid-template-columns: minmax(25rem, min-content) minmax(min-content, 1fr);
+
+    &__loading {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        // background-color: #ffffff;
+        visibility: hidden;
+        z-index: -1;
+        opacity: 0;
+        transition: all .5s;
+
+        &__gif {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+}

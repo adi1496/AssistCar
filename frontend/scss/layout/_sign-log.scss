@@ -1,0 +1,140 @@
+.log-sign {
+    display: grid;
+    grid-template-columns: minmax(20rem, 40%) 1fr;
+
+    @media only screen and (max-width: $bp-small) {
+        grid-template-columns: 1fr 1fr;
+    }
+
+
+    &__greeting {
+        background-image: linear-gradient(to bottom, rgba($color-primary, 1), rgba($color-primary-dark, 1));
+        color: $color-text-light;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 4rem;
+
+        @media only screen and (max-width: $bp-small) {
+            grid-column: 1 / -1;
+        }
+    }
+
+    &__heading {
+        font-size: 3rem;
+        margin-bottom: 2rem;
+    }
+
+    &__text-greeting {
+        font-size: 1.6rem;
+    }
+
+
+
+    &__form {
+        width: 70%;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        padding: 4rem;
+        gap: 3rem;
+
+        @media only screen and (max-width: $bp-big) {
+            width: 100%;
+        }
+
+        @media only screen and (max-width: $bp-small) {
+            grid-column: 1 / -1;
+        }
+
+        @media only screen and (max-width: $bp-smallest) {
+            padding: 3rem 1rem;
+            column-gap: 2rem;
+        }
+
+        &--login {
+            width: 90%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            padding: 4rem;
+            gap: 3rem;
+
+            @media only screen and (max-width: $bp-big) {
+                width: 100%;
+            }
+
+            @media only screen and (max-width: $bp-small) {
+                grid-column: 1 / -1;
+            }
+
+            @media only screen and (max-width: $bp-smallest) {
+                padding: 3rem 1rem;
+            }
+    
+        }
+
+        
+    }
+
+    &__title {
+        grid-column: 1 / -1;
+        justify-self: center;
+        font-size: 3rem;
+        color: $color-primary;
+
+    }
+
+    &__box {
+        display: flex;
+        flex-direction: column;
+
+        &--2col {
+            grid-column: 1 / -1;
+        }
+    }
+
+    &__label {
+        font-size: 1.6rem;
+        // color: $color-primary;
+    }
+
+    &__input {
+        outline: none;
+        padding: .5rem 1rem;
+        font-size: 1.6rem;
+        color: $color-text;
+        height: 3rem;
+        // border: 1px solid $color-text;
+        border: none;
+        background-color: #e4c9bf;
+        border-radius: 3px;
+    }
+
+    &__toggle-log-sign {
+        text-align: center;
+        grid-column: 1 / -1;
+        font-size: 1.6rem;
+    }
+
+    &__toggle-link:link,
+    &__toggle-link:visited {
+        outline: none;
+        text-decoration: none;
+        color: $color-primary;
+    }
+
+    &__forgot:link,
+    &__forgot:visited {
+        // text-align: center;
+        justify-self: center;
+        grid-column: 1 / -1;
+        font-size: 1.6rem;
+        outline: none;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    &__forgot:hover {
+        color: $color-primary;
+    }
+
+}

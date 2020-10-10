@@ -1,0 +1,135 @@
+<header class="header">
+            <img src="img/logo.png" alt="logo" class="header__logo">
+            <a href="#login" class="header__login">
+                <svg class="header__log-icon">
+                    <use xlink:href="img/svg/login.svg#icon-login"></use>
+                </svg>
+                Log in
+            </a>
+            <a href="#signup" class="header__signup">
+                <svg class="header__log-icon">
+                    <use xlink:href="img/svg/login.svg#icon-add-user"></use>
+                </svg>
+                Sign Up
+            </a>
+        </header>
+    
+            <div class="{%nav%}">
+                <ul class="{%nav%}__list">
+                    <li class="{%nav%}__item" id="overview"><a href="#overview" class="{%nav%}__link">
+                        <svg class="{%nav%}__icon">
+                            <use xlink:href="img/svg/nav-bar.svg#icon-tv"></use>
+                        </svg>
+                        <span>Overview</span>
+                    </a></li>
+                    
+                    <li class="{%nav%}__item" id="call-assistance"><a href="#call-assistance" class="{%nav%}__link">
+                        <svg class="{%nav%}__icon">
+                            <use xlink:href="img/svg/nav-bar.svg#icon-phone"></use>
+                        </svg>
+                        <span>Call assistance</span>
+                    </a></li>
+                    <li class="{%nav%}__item"><a href="https://www.carvertical.com/" class="{%nav%}__link">
+                        <svg class="{%nav%}__icon">
+                            <use xlink:href="img/svg/nav-bar.svg#icon-history"></use>
+                        </svg>
+                        Check car history
+                    </a></li>
+                </ul>
+    
+                <div class="{%legal%}">&copy; 2020 by <a href="#" class="{%legal%}__link">Adrian Matei</a>. All rights reserved.</div>
+            </div>
+    
+            <div class="content-home-guest">
+                <div class="gallery">
+                    <figure class="gallery__item">
+                        <img src="img/car-assist.jpg" alt="Gallery photo 1" class="gallery__photo">
+                        <div class="gallery__cover"></div>
+                    </figure>
+    
+                    <figure class="gallery__item">
+                        <img src="img/car-docs.jpg" alt="Gallery photo 2" class="gallery__photo">
+                        <div class="gallery__cover"></div>
+                    </figure>
+    
+    
+                    <figure class="gallery__item">
+                        <img src="img/car-repair.jpg" alt="Gallery photo 3" class="gallery__photo">
+                        <div class="gallery__cover"></div>
+                    </figure>
+                </div>
+    
+                <div class="details--home">
+                <section class="section-head">
+                    <h1 class="heading--1">
+                        Assistcar
+                        <span>Protect your car</span>
+                    </h1>
+                    <button class="btn-details btn-details--big">Discover More</button>
+                </section>
+
+                <section class="section-features">
+                    <div class="section-features__box">
+                        <svg class="section-features__icon">
+                            <use xlink:href="img/svg/features.svg#icon-alarm"></use>
+                        </svg>
+                        <h5 class="section-features__title">Remainders for maintenance and more</h5>
+                        <p class="section-features__text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus sed ut doloremque! Deserunt facere, nobis qui provident, suscipit blanditiis amet quia, praesentium culpa asperiores eaque dolorem dolores. Rerum, autem iure.</p>
+                    </div>
+                    <div class="section-features__box">
+                        <svg class="section-features__icon">
+                            <use xlink:href="img/svg/features.svg#icon-phone-call"></use>
+                        </svg>
+                        <h5 class="section-features__title">Fast assistance</h5>
+                        <p class="section-features__text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus sed ut doloremque! Deserunt facere, nobis qui provident, suscipit blanditiis amet quia, praesentium culpa asperiores eaque dolorem dolores. Rerum, autem iure.</p>
+                    </div>
+                    <div class="section-features__box">
+                        <svg class="section-features__icon">
+                            <use xlink:href="img/svg/features.svg#icon-profile"></use>
+                        </svg>
+                        <h5 class="section-features__title">Apointment for car maintenance</h5>
+                        <p class="section-features__text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus sed ut doloremque! Deserunt facere, nobis qui provident, suscipit blanditiis amet quia, praesentium culpa asperiores eaque dolorem dolores. Rerum, autem iure.</p>
+                    </div>
+                    <div class="section-features__box">
+                        <svg class="section-features__icon">
+                            <use xlink:href="img/svg/features.svg#icon-price-tag"></use>
+                        </svg>
+                        <h5 class="section-features__title">Best price</h5>
+                        <p class="section-features__text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus sed ut doloremque! Deserunt facere, nobis qui provident, suscipit blanditiis amet quia, praesentium culpa asperiores eaque dolorem dolores. Rerum, autem iure.</p>
+                    </div>
+                </section>
+
+                <section class="section-testimonials">
+                    <div class="section-testimonials__box">
+                        <figure class="section-testimonials__photo">
+                            <img src="img/users/user-adi.jpg" alt="user photo 1" class="section-testimonials__img">
+                        </figure>
+                        <div class="section-testimonials__title">Wow, this platform is amazing!🤩</div>
+                        <div class="section-testimonials__text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nam quas harum accusamus possimus libero. Sit hic ratione vitae eaque iure voluptas ea. Consequatur a, odit ab autem sed temporibus saepe.</div>
+                        
+                    </div>
+
+                    <div class="section-testimonials__box">
+                        <figure class="section-testimonials__photo">
+                            <img src="img/users/user-adi.jpg" alt="user photo 1" class="section-testimonials__img">
+                        </figure>
+                        <div class="section-testimonials__title">I really recomend tihs web-app</div>
+                        <div class="section-testimonials__text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nam quas harum accusamus possimus libero. Sit hic ratione vitae eaque iure voluptas ea. Consequatur a, odit ab autem sed temporibus saepe.</div>
+
+                    </div>
+                </section>
+
+                <section class="section-go-signup">
+                    <div class="section-go-signup__text">
+                        What are you waiting for? Go and Sign Up
+                    </div>
+                    <a href="#signup" class="section-go-signup__signup">
+                        <svg class="section-go-signup__log-icon">
+                            <use xlink:href="img/svg/login.svg#icon-add-user"></use>
+                        </svg>
+                        Sign up
+                    </a>
+                </section>
+                </div>
+    
+            </div>

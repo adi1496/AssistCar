@@ -1,0 +1,9 @@
+.section-head {
+    min-height: 65vh;
+    background-image: linear-gradient(rgba($color-primary, .8), rgba($color-primary-dark, .8)), url(../img/car-protection.png);
+    background-size: cover;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 80%, 0% 100%);
+}

@@ -1,0 +1,38 @@
+.content,
+.content-account,
+.content-log-sign,
+.content-home-guest {
+    // background-color: $color-text-light;
+    width: 100%;
+}
+
+.content {
+    grid-column: 2 / -1;
+    @media only screen and(max-width: $bp-small) {
+        grid-column: 1 / -1;
+    }
+}
+
+.content-account {
+    grid-column: 2 / -1;
+
+    @media only screen and(max-width: $bp-medium) {
+        grid-column: 1 / -1;
+    }
+}
+
+.content-log-sign {
+    grid-column: 2 / -1;
+
+    @media only screen and(max-width: $bp-medium) {
+        grid-column: 1 / -1;
+    }
+}
+
+.content-home-guest {
+    grid-column: 2 / -1;
+
+    @media only screen and(max-width: $bp-medium) {
+        grid-column: 1 / -1;
+    }
+}

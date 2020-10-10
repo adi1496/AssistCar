@@ -1,0 +1,45 @@
+                <h4 class="profile-settings__title">Edit Profile</h4>
+                    <figure class="profile-settings__photo">
+                        <img src="img/users/user-adi.jpg" alt="profile avatar" class="profile-settings__img">
+                    </figure>
+
+                    <div class="profile-settings__box">
+                        <label for="first-name" class="profile-settings__label">First Name</label>
+                        <input type="text" class="profile-settings__input" id="first-name">
+                    </div>
+                    <div class="profile-settings__box">
+                        <label for="last-name" class="profile-settings__label">Last Name</label>
+                        <input type="text" class="profile-settings__input" id="last-name">
+                    </div>
+
+                    <div class="profile-settings__box profile-settings__box--2col">
+                        <label for="email" class="profile-settings__label">E-mail</label>
+                        <input type="email" class="profile-settings__input" id="email">
+                    </div>
+                    <div class="profile-settings__box profile-settings__box--2col">
+                        <label for="phone" class="profile-settings__label">Phone Number</label>
+                        <input type="number" class="profile-settings__input" id="phone">
+                    </div>
+
+                    <div class="profile-settings__box profile-settings__box--2col">
+                        <label for="address" class="profile-settings__label">Adress</label>
+                        <input type="text" class="profile-settings__input" id="address">
+                    </div>
+                    <div class="profile-settings__box">
+                        <label for="city" class="profile-settings__label">City</label>
+                        <input type="text" class="profile-settings__input" id="city">
+                    </div>
+                    <div class="profile-settings__box">
+                        <label for="state" class="profile-settings__label">State / County</label>
+                        <input type="text" class="profile-settings__input" id="state">
+                    </div>
+                    <div class="profile-settings__box">
+                        <label for="zip-code" class="profile-settings__label">Zip-Code</label>
+                        <input type="text" class="profile-settings__input" id="zip-code">
+                    </div>
+                    <div class="profile-settings__box">
+                        <label for="country" class="profile-settings__label">Country</label>
+                        <input type="text" class="profile-settings__input" id="country">
+                    </div>
+
+                    <button class="btn-save">Save</button>

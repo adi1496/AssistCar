@@ -1,0 +1,110 @@
+    
+    
+    /**************** Details Overview Car Status **************/
+.details {
+    // height: 100%;
+    background-color: #FFCCBC;
+    padding: 2rem;
+
+    &__list {
+        list-style: none;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: $color-accent;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+
+        @media only screen and(max-width: $bp-large) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    &__item {
+        background-color: rgba($color-text-light, .1);
+        padding: 2rem 1rem;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-shadow: 0 1rem 2rem rgba(0,0,0, .4);
+        transition: all .3s;
+
+        &:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 1.5rem 2.5rem rgba(0,0,0, .4);
+        }
+    }
+
+
+    &__title {
+        color: $color-primary;
+        font-size: 1.8rem;
+        text-transform: uppercase;
+        padding: 1rem 0;
+        padding-top: 0;
+        font-weight: 300;
+        transition: all .2s;
+
+        &:hover {
+            transform: skewY(3deg);
+            font-weight: 600;
+        }
+    }
+
+    &__valid {
+        margin-bottom: .5rem;
+
+        span {
+            color: $color-primary;
+        }
+    }
+
+    &__progress {
+        height: 30px;
+        background-color: $color-divider;
+        width: 90%;
+        border-radius: 10px;
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+        margin-bottom: 2rem;
+    }
+
+    &__progress::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        height: 100%;
+        width: 80%;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+        background-image: linear-gradient(to right bottom, $color-primary-light, $color-primary 40%, $color-primary-dark 80%);
+    }
+}
+
+
+
+/**************** Details Overview Car Status **************/
+.details--account {
+    background-color: #ffffff;
+    padding: 0;
+    display: grid;
+    grid-template-columns: max-content 1fr;
+
+    @media only screen and(max-width: $bp-small) {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.details--home {
+    background-color: #e7e4e4;
+    padding: 0;
+}
+
+.details--log-sign {
+    background-color: #f3eeee;
+    padding: 0;
+}
