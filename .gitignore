@@ -3,3 +3,4 @@ frontend/.cacche/
 frontend/.js/
 backend/*.env
 backend/node_modules/
+.DS_Store
