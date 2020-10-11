@@ -1,15 +1,15 @@
 const crypto = require('crypto');
 
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
+const cookie = require('cookie');
 
 const Model = require('./../models/uerModel');
 const Mail = require('./../utils/mail');
 const AppError = require('../utils/appError');
 const catchAsync = require('./../utils/catchAsync');
 
-const createJWT = (data) => {
-    const token = jwt.sign({data}, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRES_IN});
+const createJWT = async (data) => {
+    const token = await jwt.sign({data}, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRES_IN});
     
     return token;
 }
@@ -44,16 +44,25 @@ exports.login = catchAsync(async(req, res, next) => {
 
     if(!user) next(new AppError('Email or password is incorrect. Please try again', 401));
 
+    if(user.active === false) next(new AppError('First of all you have to activate your account. Please check your email address'), 401);
+
     let checkPassword = await user.comparePaswwords(user.password, req.body.password);
     // console.log(checkPassword);
     if(checkPassword === false) next(new AppError('Email or password is incorrect. Please try again', 401));
 
+    let token = await createJWT(user._id);
 
-    let token;
-    if(checkPassword) {
-        token = createJWT(user._id);
+    cookieOptions = {
+        httpOnly: true,
+        maxAge: 90 * 24 * 60 * 60
     }
 
+
+    if(req.connection.encrypted) {
+        cookieOptions.secure = true;
+    }
+
+    res.cookie('jwt', token, cookieOptions);
     res.status(200).json({
         status: 'success',
         token
@@ -70,9 +79,16 @@ exports.logout = catchAsync(async(req, res, next) => {
 });
 
 exports.isLoggedIn = catchAsync(async(req, res, next) => {
-    if(!req.headers.jwt) next(new AppError('You are not logged-in. Please log-in again to gain access', 401));
+    // console.log(req.headers);
+    if(!req.headers.jwt || !req.headers.cookie.startsWith('jwt=')) next(new AppError('You are not logged-in. Please log-in again to gain access', 401));
 
-    const decoded = verifyJWT(req.headers.jwt);
+    let decoded;
+    if(req.headers.cookie.startsWith('jwt=')){
+        decoded = await verifyJWT(req.headers.jwt);
+    }else {
+        decoded = verifyJWT(req.headers.jwt);
+    }
+    
     const user = await Model.findOne({_id: decoded.data}).select('+passwordChangedAt');
 
     if(!user) next(new AppError('You are not logged in. Please login to gain access', 401));
@@ -162,4 +178,29 @@ exports.updatePassword = catchAsync(async(req, res, next) => {
         status: 'success',
         message: 'Your password has been changed'
     })
+});
+
+exports.activateAccount = catchAsync(async(req, res, next) => {
+    const token = req.params.token;
+
+    if(!token) next(new AppError('The token is invalid. Please try again with a valid token', 401));
+
+    const tokenHashed = crypto.createHash('sha256').update(token).digest('hex');
+
+    const user = await Model.findOne({activateAccount: tokenHashed}).select('+password');
+
+    if(!user) next(new AppError('The token is invalid. Please try again with a valid token', 401));
+
+    user.password = req.body.password;
+    user.confirmPassword = req.body.confirmPassword;
+    user.active = true;
+    user.activateAccount = undefined;
+
+    await user.save();
+
+    res.status(200).json({
+        status: 'success',
+        message: 'Your account has been activated and password was setted'
+    })
+
 });

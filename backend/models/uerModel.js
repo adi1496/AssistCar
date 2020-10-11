@@ -56,10 +56,19 @@ const userSchema = new mongoose.Schema({
         default: 'user'
     },
 
-    drivers: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'User'
+    drivers:[
+        {
+            type: mongoose.Schema.ObjectId,
+            ref: 'User'
+        }
+    ] ,
+
+    active: {
+        type: Boolean,
+        default: true
     },
+
+    activateAccount: String,
 
     passwordResetToken: String,
     passwordResetTokenExpires: Date,
@@ -96,14 +105,12 @@ userSchema.pre(/^find/, function(next){
 })
 
 userSchema.methods.comparePaswwords = async (password, candidatePassword) => {
-    console.log(password, candidatePassword);
 
     return await bcrypt.compare(candidatePassword, password);
 }
 
 userSchema.methods.createPasswordResetToken = function () {
     const randomStr = crypto.randomBytes(32).toString('hex');
-    console.log(this);
     
     this.passwordResetToken = crypto.createHash('sha256').update(randomStr).digest('hex');
     this.passwordResetTokenExpires = Date.now() + (10 * 60 * 1000);

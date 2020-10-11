@@ -8,7 +8,6 @@
 - [x] Config .env file
 - [x] Setup connection to Database
 - [ ] Create the routes and controllers:
-    ### TODO
     - [x] cars
         ###TODO
         - [x] getAllCars
@@ -24,30 +23,38 @@
         - [ ] createNewUser
         - [ ] updateUser
         - [ ] deleteUser
-        - [x] signUp
-        - [x] login with JWT
+        - [x] create drivers (leaders only)
 
     - [ ] views
         ###TODO
         - [ ] sendPage
 
     - [ ] %future features%
-- [ ] Create Database Models:
+- [ ] Create Models:
     - [x] cars + pre/post middlewares
-    - [ ] users
+    - [x] users
     - [ ] %future features%
-- [ ] Error handler and the App Error Class
+- [ ] Error handler
     ###TODO
+    - [x] create AppError class
     - [x] catchAsync function to avoid using try-catch
+    - [x] handle sending production errors vs development errors
+    - [x] unhandledRejection
+    - [x] uncaughtException
+    - [x] SIGTERM
 - [ ] Authentication, authorisation and security
     ###TODO
+    - [x] signUp
+    - [x] login with JWT
     - [x] check if user is logged (also if user changed password after login)
     - [x] forgot Password
     - [x] resetPassword
     - [x] user restriction
+    - [x] update password by user
 - [ ] Rendering front end
 - [ ] Add features
     ###TODO
     - [x] Create and send emails for development
     - [ ] Create and send emails for production
-    - [x] Create owner for vehicles and company owners + drivers
+    - [x] Create ObjectIds: owner for vehicles and company owners + drivers
+    - [x] Create ObjectIds: drivers for company leader

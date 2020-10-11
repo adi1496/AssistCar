@@ -1,9 +1,9 @@
 const nodemailer = require('nodemailer');
 
 class Email {
-    constructor(title, message, receiver) {
+    constructor(subject, message, receiver) {
         this.from = '"AssistCar" <assistcar@assistcar.com>';
-        this.subject = title;
+        this.subject = subject;
         this.text = message;
         this.to = receiver;
     }

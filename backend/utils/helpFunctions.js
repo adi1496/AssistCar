@@ -1,3 +1,5 @@
+const crypto = require('crypto');
+
 exports.firstLetterBig = (element) => {
     let array = element.split('');
     array[0] = element[0].toUpperCase();
@@ -54,7 +56,6 @@ exports.validateEmail = (email) => {
 
     if(at === [] || at.length > 2) return false;
 
-    console.log(at);
     let lettersAfterDot = 0;
     let dot = [];
     for(let i = email.length - 1; i > at[1]; i--) {
@@ -66,9 +67,20 @@ exports.validateEmail = (email) => {
         }
     }
 
-    console.log(lettersAfterDot);
     if(dot === [] || lettersAfterDot < 2 || dot.length > 4) return false;
 
     return true;
 
+}
+
+exports.createActivateAccountToken = () => {
+    const randomStr = crypto.randomBytes(32).toString('hex');
+    console.log(this);
+    
+    activateAccount = crypto.createHash('sha256').update(randomStr).digest('hex');
+
+    return {
+        randomStr,
+        activateAccount
+    }
 }

@@ -121,6 +121,14 @@ carSchema.pre(/^find/, function(next){
     next();
 });
 
+carSchema.pre(/^find/, function(next) {
+    this.populate({
+        path: 'owner',
+        select: '-__v -passwordChangedAt'
+    });
+    next();
+});
+
 carSchema.pre('save', function(next){
     this.brand = helpFunctions.firstLetterBig(this.brand);
     this.model = helpFunctions.firstLetterBig(this.model);
