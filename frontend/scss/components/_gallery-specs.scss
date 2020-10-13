@@ -4,6 +4,8 @@
     grid-template-rows: max-content;
     align-items: stretch;
     user-select: none;
+    position: relative;
+    z-index: 1;
 
     &__cover {
         background-image: linear-gradient(to right bottom, rgba($color-primary, .4), rgba($color-primary-dark, .4));
@@ -28,5 +30,6 @@
         height: 100%;
         display: block;
         object-fit: cover;
+        z-index: 1;
     }
 }

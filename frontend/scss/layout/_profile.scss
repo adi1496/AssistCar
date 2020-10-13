@@ -163,6 +163,7 @@
     &__photo {
         grid-column: 1 / -1;
         justify-self: center;
+        position: relative;
     }
 
     &__img {
@@ -177,6 +178,23 @@
         width: 10rem;
         justify-self: center;
         fill: $color-primary-dark;
+    }
+
+    &__icon-small {
+        height: 4rem;
+        width: 4rem;
+        fill: $color-text-light;
+        position: absolute;
+        bottom: 1rem;
+        right: 1rem;
+        background-color: rgba($color-primary, 0.8);
+        border-radius: 40%;
+        padding: .5rem;
+
+        &:hover {
+            fill: $color-text-dark;
+            background-color: $color-primary;
+        }
     }
 
     &__label {
@@ -243,4 +261,11 @@ input[type=number]::-webkit-outer-spin-button {
     
 input[type=number] {
     -moz-appearance:textfield; /* Firefox */
+}
+
+
+#file {
+    width: 0;
+    height: 0;
+    display: none;
 }

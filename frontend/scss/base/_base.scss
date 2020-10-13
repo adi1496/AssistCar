@@ -18,6 +18,15 @@ $bp-small: 34.375em;    //550 px
 $bp-smallest: 25em;     //400 px
 // $bp-smallestx2: 25em;     //400 px
 
+:root {
+    --progress-insurance: 0%;
+    --progress-casco: 0%;
+    --progress-tehnicalInspection: 0%;
+    --progress-fireExtinguisher: 0%;
+    --progress-medicalKit: 0%;
+    --progress-roadVignete: 0%;
+
+}
 
 * {
     margin: 0;

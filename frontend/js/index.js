@@ -1,36 +1,22 @@
 // import '@babel/polyfill';
-import renderTemplates from './models/templateModel.js';
-import {setEventListeners} from './models/eventsListeneres.js';
-import {renderPage, showloadingPage, hideLoadingPage} from './views/renderPage.js';
-let pageRequest, url;
-if(document.URL.startsWith('`${window.origin}/#`')){
+import {renderController} from './controllers/renderController.js';
+import {showloadingPage} from './views/renderPage.js';
+let url;
+if(document.URL.startsWith(`${window.origin}/#`)){
     url = document.URL.replace(`${window.origin}/#`, '');
 }else {
-    url = 'overview';
+    url = 'home';
 }
-
 
 showloadingPage();
 
 (async() => {
-    console.log(window);
-    let response = await fetch(`http://127.0.0.1:3000/api/v1/pages/${url}`);
-    pageRequest = await response.json();
-    // pageRequest = pageRequest.page;
-    console.log('request ok');
-
-    if(document.readyState === 'complete' || document.readyState === 'interactive') {
-        renderPage('.container', pageRequest.page);
-        setTimeout(() => {
-            setEventListeners(url, pageRequest.listeners);
-        }, 100);
-        hideLoadingPage();
-    }
+    renderController(url);
 })();
 
 
 
-window.onhashchange = () => {
+window.onhashchange = (event) => {
     location.reload();
     console.log(document.URL);
 }

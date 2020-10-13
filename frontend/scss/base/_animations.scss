@@ -49,6 +49,24 @@
     }
 }
 
+@keyframes drop-down-hide {
+    0% {
+        transform: translateY(.5rem);
+    }
+
+    30%{
+        opacity: 0.2;
+    }
+
+    70% {
+        height: 1rem;
+    }
+
+    90% {
+        transform: translateY(-2rem);
+    }
+}
+
 // profile nav items
 @keyframes arrow-right {
     0% {

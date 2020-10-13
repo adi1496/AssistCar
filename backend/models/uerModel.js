@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const mongoose = require('mongoose');
 const helpFunctions = require ('./../utils/helpFunctions');
 const bcrypt = require('bcryptjs');
+const { type } = require('os');
 
 const userSchema = new mongoose.Schema({
     firstName: {
@@ -22,6 +23,7 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         trim: true,
+        lowercase: true,
         required: true,
         unique: true,
         validate: {
@@ -50,10 +52,40 @@ const userSchema = new mongoose.Schema({
         }
     },
 
+    phone: {
+        type: String,
+        minlength: [10, 'A phone number should be minimum 10 characters'],
+        maxlength: [15, 'A phone number should be maximum 15 characters']
+    },
+
+    address: String,
+    city: String,
+    state: String,
+    zipCode: String,
+    country: String,
+
+    photo: String,
+
     userRole: {
         type: String,
         enum: ['adim', 'user', 'leader', 'driver'],
         default: 'user'
+    },
+
+    cars:[
+        {
+            type: mongoose.ObjectId,
+            ref: 'Car'
+        }
+    ],
+
+    company: {
+        isCompany: {
+            type: Boolean,
+            default: false
+        },
+
+        companyName: String
     },
 
     drivers:[

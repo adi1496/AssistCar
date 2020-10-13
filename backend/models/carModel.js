@@ -5,17 +5,18 @@ const helpFunctions = require('./../utils/helpFunctions');
 
 const carSchema = new mongoose.Schema({
     company: {
-        leader: {
-            type: mongoose.Schema.ObjectId,
-            ref: 'User'
-        },
-
-        drivers: [
-            {
+            leader: {
                 type: mongoose.Schema.ObjectId,
                 ref: 'User'
-            }
-        ]
+            },
+    
+            drivers: [
+                {
+                    type: mongoose.Schema.ObjectId,
+                    ref: 'User'
+                }
+            ]
+        
     },
 
     owner: {
@@ -65,29 +66,21 @@ const carSchema = new mongoose.Schema({
     ],
 
     insurance: {
-        insurerName: {
-            type: String,
-            default: 'Not Specfied'
-        },
         validFrom: Date,
         validTo: Date,
-        paperPicture: String
+        // paperPicture: String
     },
 
     casco: {
-        insurerName: {
-            type: String,
-            default: 'Not Specfied'
-        },
         validFrom: Date,
         validTo: Date,
-        paperPicture: String
+        // paperPicture: String
     },
 
     tehnicalInspection: {
         validFrom: Date,
         validTo: Date,
-        paperPicture: String
+        // paperPicture: String
     },
 
     fireExtinguisher: {
@@ -95,7 +88,7 @@ const carSchema = new mongoose.Schema({
         validTo: Date,
     },
 
-    medikalKit: {
+    medicalKit: {
         validFrom: Date,
         validTo: Date,
     },
@@ -112,7 +105,13 @@ const carSchema = new mongoose.Schema({
         },
         dateStartSummer: Date,
         dateEndSummer: Date
-    }
+    },
+
+    documents: [
+        {
+            type: String,
+        }
+    ]
 });
 
 carSchema.pre(/^find/, function(next){

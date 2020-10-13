@@ -3,7 +3,7 @@
     /**************** Details Overview Car Status **************/
 .details {
     // height: 100%;
-    background-color: #FFCCBC;
+    background-color: #ecebeb;
     padding: 2rem;
 
     &__list {
@@ -14,6 +14,7 @@
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 2rem;
+        row-gap: 5rem;
 
         @media only screen and(max-width: $bp-large) {
             grid-template-columns: 1fr;
@@ -23,7 +24,7 @@
     &__item {
         background-color: rgba($color-text-light, .1);
         padding: 2rem 1rem;
-        border-radius: 5px;
+        border-radius: 100px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -35,6 +36,20 @@
             box-shadow: 0 1.5rem 2.5rem rgba(0,0,0, .4);
         }
     }
+
+    /*********** Design Later **************/
+    &__user-item {
+        grid-column: 1 / -1;
+        background-color: rgba($color-text-light, .1);
+        padding: 2rem 1rem;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-shadow: 0 1rem 2rem rgba(0,0,0, .4);
+        transition: all .3s;
+    }
+    /***********        *********************/
 
 
     &__title {
@@ -78,13 +93,36 @@
         left: 0;
         z-index: 2;
         height: 100%;
-        width: 80%;
+        width: var(--progress-width);
         border-top-right-radius: 10px;
         border-bottom-right-radius: 10px;
         background-image: linear-gradient(to right bottom, $color-primary-light, $color-primary 40%, $color-primary-dark 80%);
     }
 }
 
+#progress-insurance::before {
+    width: var(--progress-insurance);
+}
+
+#progress-casco::before {
+    width: var(--progress-casco);
+}
+
+#progress-tehnicalInspection::before {
+    width: var(--progress-tehnicalInspection);
+}
+
+#progress-fireExtinguisher::before {
+    width: var(--progress-fireExtinguisher);
+}
+
+#progress-medicalKit::before {
+    width: var(--progress-medicalKit);
+}
+
+#progress-roadVignete::before {
+    width: var(--progress-roadVignete);
+}
 
 
 /**************** Details Overview Car Status **************/

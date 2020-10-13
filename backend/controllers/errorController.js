@@ -49,11 +49,14 @@ const handleJWTError = error => {
 
 /********** Send errors in development env *******/
 const sendErrorDev = (err, req, res) => {
+    console.log(err);
+
     res.status(err.statusCode).json({
         status: err.status,
         message: err.message,
-        err
+        // err
     });
+
 }
 
 
@@ -79,31 +82,36 @@ module.exports = (err, req, res, next) =>{
     // res.status(500).json({
     //     err
     // });
-    err.statusCode = err.statusCode || 500;
-    err.status = err.status || 'error';
-
-    if(process.env.NODE_ENV === 'development') {
-        sendErrorDev(err, req, res);
-    }else if(process.env.NODE_ENV === 'production') {
-        // res.json({
-        //     err: err
-        // });
-
-        let error = {...err};
-        error.message = err.message;
-
-        // console.log(error);
-        if(error.code === 11000) {
-            error = handleDuplicateError(error);
-        }else if(error.path === '_id') {
-            error = handleIdError(error);
-        }else if(error.name === 'ValidatorError'){
-            error = handleValidatorError(error);
-        }else if(error.name === 'JsonWebTokenError') {
-            error = handleJWTError(error);
+    // return false;
+    if(err){
+        err.statusCode = err.statusCode || 500;
+        err.status = err.status || 'error';
+    
+        if(process.env.NODE_ENV === 'development') {
+            sendErrorDev(err, req, res);
+        }else if(process.env.NODE_ENV === 'production') {
+            // res.json({
+            //     err: err
+            // });
+    
+            let error = {...err};
+            error.message = err.message;
+    
+            // console.log(error);
+            if(error.code === 11000) {
+                error = handleDuplicateError(error);
+            }else if(error.path === '_id') {
+                error = handleIdError(error);
+            }else if(error.name === 'ValidatorError'){
+                error = handleValidatorError(error);
+            }else if(error.name === 'JsonWebTokenError') {
+                error = handleJWTError(error);
+            }
+    
+            // console.log(error);
+            sendErrorProd(error, req, res);
         }
-
-        // console.log(error);
-        sendErrorProd(error, req, res);
     }
+
+    
 }

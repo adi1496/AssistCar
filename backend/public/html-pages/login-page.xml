@@ -1,12 +1,12 @@
 <header class="header">
             <img src="img/logo.png" alt="logo" class="header__logo">
-            <a href="#login" class="header__login">
+            <a id="login-link" href="#login" class="header__login">
                 <svg class="header__log-icon">
                     <use xlink:href="img/svg/login.svg#icon-login"></use>
                 </svg>
                 Log in
             </a>
-            <a href="#signup" class="header__signup">
+            <a id="signup-link" href="#signup" class="header__signup">
                 <svg class="header__log-icon">
                     <use xlink:href="img/svg/login.svg#icon-add-user"></use>
                 </svg>
@@ -16,14 +16,14 @@
     
             <div class="{%nav%}">
                 <ul class="{%nav%}__list">
-                    <li class="{%nav%}__item" id="overview"><a href="#overview" class="{%nav%}__link">
+                    <li class="{%nav%}__item" id="overview"><a id="home-link" href="#home" class="{%nav%}__link">
                         <svg class="{%nav%}__icon">
                             <use xlink:href="img/svg/nav-bar.svg#icon-tv"></use>
                         </svg>
-                        <span>Overview</span>
+                        <span>Home</span>
                     </a></li>
                     
-                    <li class="{%nav%}__item" id="call-assistance"><a href="#call-assistance" class="{%nav%}__link">
+                    <li class="{%nav%}__item" id="call-assistance"><a id="call-link" href="#call-assistance" class="{%nav%}__link">
                         <svg class="{%nav%}__icon">
                             <use xlink:href="img/svg/nav-bar.svg#icon-phone"></use>
                         </svg>

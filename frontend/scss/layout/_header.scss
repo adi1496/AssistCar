@@ -76,6 +76,7 @@
         display: flex;
         align-items: center;
         user-select: none;
+        // position: relative;
     }
 
     &__user-photo {
@@ -87,6 +88,48 @@
 
     &__user-name {
         font-size: 1.6rem;
+    }
+
+    &__drop-down {
+        position: absolute;
+        top: 7rem;
+        right: 0;
+        background-color: $color-text-light;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        z-index: 99;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        opacity: 0;
+        visibility: hidden;
+        transition: all .6s;
+        animation: drop-down-hide .3s ease-out;
+
+        &--active {
+            opacity: 1;
+            visibility: visible;
+            animation: popup-drop .3s ease-out;
+        }
+    }
+
+    &__link:link,
+    &__link:visited {
+        text-decoration: none;
+        outline: none;
+        color: $color-text-dark;
+        font-size: 1.6rem;
+        padding: 1rem 2.2rem;
+        align-self: stretch;
+
+        &:last-child {
+            border-top: 1px dotted #d1cfcf;
+        }
+    }
+
+    &__link:hover {
+        background-color: #d1cfcf;
+        color: color;
     }
 
     /*********** Header Guest *************/

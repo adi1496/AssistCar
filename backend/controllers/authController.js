@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 
 const jwt = require('jsonwebtoken');
-const cookie = require('cookie');
+// const cookie = require('cookie');
 
 const Model = require('./../models/uerModel');
 const Mail = require('./../utils/mail');
@@ -16,17 +16,29 @@ const createJWT = async (data) => {
 
 const verifyJWT = token => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
     return decoded;
 }
 
 exports.signUp = catchAsync(async(req, res, next) => {
+    let isCompany = false;
+    let userRole = 'user';
+    let companyName = undefined;
+    if(req.body.isCompany) {
+        isCompany = true;
+        userRole = 'leader';
+        companyName = req.body.companyName;
+    }
+    // let photo = `${req.body.firstName}${Date.now()}`.toLowerCase();
     const newUser = await Model.create({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
         password: req.body.password,
-        confirmPassword: req.body.confirmPassword
+        confirmPassword: req.body.confirmPassword,
+        'company.isCompany': isCompany,
+        'company.companyName': companyName,
+        userRole
+
     });
 
     if(!newUser) return next(new AppError('User was not created, please try again', 400));
@@ -40,61 +52,101 @@ exports.signUp = catchAsync(async(req, res, next) => {
 });
 
 exports.login = catchAsync(async(req, res, next) => {
+    console.log(req.body);
     const user = await Model.findOne({email: req.body.email}).select('+password');
+    // console.log(user);
 
-    if(!user) next(new AppError('Email or password is incorrect. Please try again', 401));
+    if(!user) return next(new AppError('Email or password is incorrect. Please try again', 401));
 
-    if(user.active === false) next(new AppError('First of all you have to activate your account. Please check your email address'), 401);
+    if(user.active === false)return next(new AppError('First of all you have to activate your account. Please check your email address'), 401);
 
     let checkPassword = await user.comparePaswwords(user.password, req.body.password);
     // console.log(checkPassword);
-    if(checkPassword === false) next(new AppError('Email or password is incorrect. Please try again', 401));
+    if(checkPassword === false) return next(new AppError('Email or password is incorrect. Please try again', 401));
+
 
     let token = await createJWT(user._id);
 
     cookieOptions = {
-        httpOnly: true,
-        maxAge: 90 * 24 * 60 * 60
+        maxAge: process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60,
+        httpOnly: true
     }
+    if(process.env.NODE_ENV === 'production') cookieOptions.secure = true;
 
+    // if(req.connection.encrypted) {
+    //     cookieOptions.secure = true;
+    // }
 
-    if(req.connection.encrypted) {
-        cookieOptions.secure = true;
-    }
-
+    console.log(token);
     res.cookie('jwt', token, cookieOptions);
     res.status(200).json({
         status: 'success',
-        token
-    })
+        // token
+    });
+    
 });
 
 exports.logout = catchAsync(async(req, res, next) => {
-    const token = jwt.sign({data: 'fsaf'}, 'loggedout', {expiresIn: 1 * 1000});
 
+    res.cookie('jwt', 'LoggedOut', {maxAge: 1 * 10 * 1000})
     res.status(200).json({
         status: 'success',
         message: "You are logged out"
     })
 });
 
-exports.isLoggedIn = catchAsync(async(req, res, next) => {
-    // console.log(req.headers);
-    if(!req.headers.jwt || !req.headers.cookie.startsWith('jwt=')) next(new AppError('You are not logged-in. Please log-in again to gain access', 401));
-
+exports.viewisLoggedIn = catchAsync(async(req, res, next) => {
     let decoded;
-    if(req.headers.cookie.startsWith('jwt=')){
-        decoded = await verifyJWT(req.headers.jwt);
-    }else {
+    if(req.headers.cookie){
+        let jwt = req.headers.cookie.split('=')[1];
+        if(jwt === 'LoggedOut') {
+            decoded = {data: ''};
+        }else {
+            decoded = verifyJWT(req.headers.cookie.split('=')[1]);
+        }
+    }else if(req.headers.jwt){
         decoded = verifyJWT(req.headers.jwt);
+    }else {
+        decoded = {
+            data: ''
+        };
     }
-    
+
+
+    let user;
+    if(decoded.data) user = await Model.findOne({_id: decoded.data}).select('+passwordChangedAt');
+
+    if(!user){
+        req.isLoggedIn = false;
+        return next();
+    }
+
+    if(user.changedPasswordAfter(decoded.iat)){
+        req.isLoggedIn = false;
+        return next();
+    }
+
+    req.user = user;
+    req.isLoggedIn = true;
+    next();
+});
+
+exports.isLoggedIn = catchAsync(async(req, res, next) => {
+    let decoded;
+    if(req.headers.cookie){
+        if(req.headers.cookie.startsWith('jwt=')) decoded = await verifyJWT(req.headers.cookie.split('=')[1]);
+    }else if(req.headers.jwt){
+        decoded = verifyJWT(req.headers.jwt);
+    }else {
+        return next(new AppError('You are not logged in. Please login to gain access', 401));
+    }
+
     const user = await Model.findOne({_id: decoded.data}).select('+passwordChangedAt');
 
-    if(!user) next(new AppError('You are not logged in. Please login to gain access', 401));
-    
-    if(user.changedPasswordAfter(decoded.iat)) next(new AppError('The password was recently changed. Please login again!', 401));
+    if(!user) return next(new AppError('You are not logged in. Please login to gain access', 401));
 
+    if(user.changedPasswordAfter(decoded.iat)) return next(new AppError('The password was recently changed. Please login again!', 401));
+    // console.log(usser);
     //put user in the req if we need it later
     req.user = user;
     next();
@@ -107,18 +159,18 @@ exports.restrictTo = (...roles) => {
             if(req.user.userRole === el) ok = true;
         });
 
-        if(ok === false) next(new AppError(`You don't have rights to access this`, 401));
+        if(ok === false) return next(new AppError(`You don't have rights to access this`, 401));
 
         next();
     });
 }
 
 exports.forgotPassowrd = catchAsync(async(req, res, next) => {
-    if(!req.body.email) next(new AppError('Please provide an email', 400));
+    if(!req.body.email)return next(new AppError('Please provide an email', 400));
 
     const user = await Model.findOne({email: req.body.email});
 
-    if(!user) next(new AppError('This is no account for this email. Please provide an valid email', 400));
+    if(!user) return next(new AppError('This is no account for this email. Please provide an valid email', 400));
 
     const resetToken = await user.createPasswordResetToken();
 
@@ -138,13 +190,13 @@ exports.forgotPassowrd = catchAsync(async(req, res, next) => {
 });
 
 exports.resetPassword = catchAsync(async(req, res, next) => {
-    if(!req.params.token) next(new AppError('Your reset token is invalid', 401));
+    if(!req.params.token) return next(new AppError('Your reset token is invalid', 401));
 
     const token = crypto.createHash('sha256').update(req.params.token).digest('hex');
 
     const user = await Model.findOne({passwordResetToken: token});
     
-    if(!user) next(new AppError('Your reset token is invalid', 401));
+    if(!user) return next(new AppError('Your reset token is invalid', 401));
 
     if(user.passwordResetTokenExpires < Date.now()) next(new AppError('The token has expired. Please go an press again forgot password and wait for e-mail', 400));
 
@@ -164,10 +216,11 @@ exports.resetPassword = catchAsync(async(req, res, next) => {
 exports.updatePassword = catchAsync(async(req, res, next) => {
     const user = await Model.findById(req.user._id).select('+password');
     
-    if(!user) next(new AppError('You are not logged in. Please login again', 401));
+    console.log(req.body.oldPassword, user.password);
+    if(!user) return next(new AppError('You are not logged in. Please login again', 401));
 
     const answer = await user.comparePaswwords(user.password, req.body.oldPassword);
-    if(answer === false) next(new AppError('The old password is wrong. Please try again'));
+    if(answer === false) return next(new AppError('The old password is wrong. Please try again', 400));
 
     user.password = req.body.password;
     user.confirmPassword = req.body.confirmPassword;
@@ -183,13 +236,13 @@ exports.updatePassword = catchAsync(async(req, res, next) => {
 exports.activateAccount = catchAsync(async(req, res, next) => {
     const token = req.params.token;
 
-    if(!token) next(new AppError('The token is invalid. Please try again with a valid token', 401));
+    if(!token) return next(new AppError('The token is invalid. Please try again with a valid token', 401));
 
     const tokenHashed = crypto.createHash('sha256').update(token).digest('hex');
 
     const user = await Model.findOne({activateAccount: tokenHashed}).select('+password');
 
-    if(!user) next(new AppError('The token is invalid. Please try again with a valid token', 401));
+    if(!user) return next(new AppError('The token is invalid. Please try again with a valid token', 401));
 
     user.password = req.body.password;
     user.confirmPassword = req.body.confirmPassword;

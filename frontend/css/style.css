@@ -1,3 +1,11 @@
+:root {
+  --progress-insurance: 0%;
+  --progress-casco: 0%;
+  --progress-tehnicalInspection: 0%;
+  --progress-fireExtinguisher: 0%;
+  --progress-medicalKit: 0%;
+  --progress-roadVignete: 0%; }
+
 * {
   margin: 0;
   padding: 0; }
@@ -53,6 +61,16 @@ body {
     height: 1rem; }
   100% {
     transform: translateY(-5rem); } }
+
+@keyframes drop-down-hide {
+  0% {
+    transform: translateY(0.5rem); }
+  30% {
+    opacity: 0.2; }
+  70% {
+    height: 1rem; }
+  90% {
+    transform: translateY(-2rem); } }
 
 @keyframes arrow-right {
   0% {
@@ -225,6 +243,37 @@ body {
     margin-right: 1rem; }
   .header__user-name {
     font-size: 1.6rem; }
+  .header__drop-down {
+    position: absolute;
+    top: 7rem;
+    right: 0;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 99;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .6s;
+    animation: drop-down-hide .3s ease-out; }
+    .header__drop-down--active {
+      opacity: 1;
+      visibility: visible;
+      animation: popup-drop .3s ease-out; }
+  .header__link:link, .header__link:visited {
+    text-decoration: none;
+    outline: none;
+    color: #212121;
+    font-size: 1.6rem;
+    padding: 1rem 2.2rem;
+    align-self: stretch; }
+    .header__link:link:last-child, .header__link:visited:last-child {
+      border-top: 1px dotted #d1cfcf; }
+  .header__link:hover {
+    background-color: #d1cfcf;
+    color: color; }
   .header__login:link, .header__login:visited {
     align-self: stretch;
     text-decoration: none;
@@ -441,8 +490,10 @@ body {
 
 /**************** Details Overview Car Status **************/
 .details {
-  background-color: #FFCCBC;
-  padding: 2rem; }
+  background-color: #ecebeb;
+  padding: 2rem;
+  /*********** Design Later **************/
+  /***********        *********************/ }
   .details__list {
     list-style: none;
     font-size: 1.4rem;
@@ -450,14 +501,15 @@ body {
     color: #795548;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 2rem; }
+    gap: 2rem;
+    row-gap: 5rem; }
     @media only screen and (max-width: 65.625em) {
       .details__list {
         grid-template-columns: 1fr; } }
   .details__item {
     background-color: rgba(255, 255, 255, 0.1);
     padding: 2rem 1rem;
-    border-radius: 5px;
+    border-radius: 100px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -466,6 +518,16 @@ body {
     .details__item:hover {
       transform: translateY(-4px);
       box-shadow: 0 1.5rem 2.5rem rgba(0, 0, 0, 0.4); }
+  .details__user-item {
+    grid-column: 1 / -1;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 2rem 1rem;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.4);
+    transition: all .3s; }
   .details__title {
     color: #FF5722;
     font-size: 1.8rem;
@@ -497,10 +559,28 @@ body {
     left: 0;
     z-index: 2;
     height: 100%;
-    width: 80%;
+    width: var(--progress-width);
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     background-image: linear-gradient(to right bottom, #FFCCBC, #FF5722 40%, #E64A19 80%); }
+
+#progress-insurance::before {
+  width: var(--progress-insurance); }
+
+#progress-casco::before {
+  width: var(--progress-casco); }
+
+#progress-tehnicalInspection::before {
+  width: var(--progress-tehnicalInspection); }
+
+#progress-fireExtinguisher::before {
+  width: var(--progress-fireExtinguisher); }
+
+#progress-medicalKit::before {
+  width: var(--progress-medicalKit); }
+
+#progress-roadVignete::before {
+  width: var(--progress-roadVignete); }
 
 /**************** Details Overview Car Status **************/
 .details--account {
@@ -632,7 +712,8 @@ body {
     font-weight: 300; }
   .profile-settings__photo {
     grid-column: 1 / -1;
-    justify-self: center; }
+    justify-self: center;
+    position: relative; }
   .profile-settings__img {
     height: 15rem;
     width: 15rem;
@@ -643,6 +724,19 @@ body {
     width: 10rem;
     justify-self: center;
     fill: #E64A19; }
+  .profile-settings__icon-small {
+    height: 4rem;
+    width: 4rem;
+    fill: #FFFFFF;
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    background-color: rgba(255, 87, 34, 0.8);
+    border-radius: 40%;
+    padding: .5rem; }
+    .profile-settings__icon-small:hover {
+      fill: #212121;
+      background-color: #FF5722; }
   .profile-settings__label {
     font-size: 1.6rem; }
   .profile-settings__input {
@@ -686,6 +780,11 @@ input[type=number]::-webkit-outer-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
   /* Firefox */ }
+
+#file {
+  width: 0;
+  height: 0;
+  display: none; }
 
 .log-sign {
   display: grid;
@@ -749,8 +848,50 @@ input[type=number] {
     flex-direction: column; }
     .log-sign__box--2col {
       grid-column: 1 / -1; }
+    .log-sign__box--checkBox {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-direction: row;
+      align-items: center; }
+    .log-sign__box--company {
+      grid-column: 1 / -1; }
+  .log-sign__checkBox {
+    visibility: hidden;
+    position: relative;
+    margin-right: 1rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    outline: none; }
+  .log-sign__checkBox::before {
+    content: '';
+    visibility: visible;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: none;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: #FF5722;
+    border-radius: 10px;
+    border: 2px solid #FFF; }
+  .log-sign__checkBox:hover::before {
+    content: '\2713';
+    text-align: center;
+    background-color: #E64A19;
+    color: #e2e0e0;
+    font-size: 1.8rem; }
+  .log-sign__checkBox:checked::after {
+    content: '\2713';
+    visibility: visible;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #FFFFFF;
+    font-size: 1.8rem; }
   .log-sign__label {
-    font-size: 1.6rem; }
+    font-size: 1.6rem;
+    user-select: none; }
   .log-sign__input {
     outline: none;
     padding: .5rem 1rem;
@@ -783,7 +924,9 @@ input[type=number] {
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: max-content;
   align-items: stretch;
-  user-select: none; }
+  user-select: none;
+  position: relative;
+  z-index: 1; }
   .gallery__cover {
     background-image: linear-gradient(to right bottom, rgba(255, 87, 34, 0.4), rgba(230, 74, 25, 0.4));
     z-index: 2;
@@ -801,7 +944,8 @@ input[type=number] {
     width: 100%;
     height: 100%;
     display: block;
-    object-fit: cover; }
+    object-fit: cover;
+    z-index: 1; }
 
 .overview {
   font-size: 1.8rem;
@@ -836,7 +980,13 @@ input[type=number] {
     padding: 1rem 0;
     text-transform: uppercase;
     margin-left: 2rem;
-    margin-right: .5rem; }
+    margin-right: .5rem;
+    user-select: none;
+    cursor: pointer; }
+    .overview__heading:active {
+      transform: translateY(3px); }
+  .overview__heading:active .overview__dropdown {
+    transform: translateY(3px); }
   .overview__drop-down {
     width: 3rem;
     height: 3rem;
@@ -981,7 +1131,8 @@ input[type=number] {
     transform: translate(-50%, -50%);
     height: 50rem;
     width: 50rem;
-    background-color: #ffffff; }
+    background-color: #ffffff;
+    border-radius: 20px; }
 
 .popup-select-car {
   height: 32rem;
@@ -1008,6 +1159,30 @@ input[type=number] {
     cursor: pointer; }
     .popup-select-car__item:hover {
       background-color: #E64A19; }
+
+.alert-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  background-color: rgba(6, 173, 6, 0.9);
+  color: #fff;
+  z-index: 999;
+  padding: 2rem 0; }
+
+.alert-popup--red {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  background-color: rgba(160, 27, 4, 0.9);
+  color: #fff; }
 
 .section-head {
   min-height: 65vh;
@@ -1090,7 +1265,8 @@ input[type=number] {
         grid-column: 1 / -1;
         justify-self: center; } }
   .section-testimonials__img {
-    height: 100%; }
+    height: 100%;
+    width: 100%; }
   .section-testimonials__title {
     align-self: start;
     font-size: 1.8rem;

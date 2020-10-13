@@ -75,7 +75,6 @@ exports.validateEmail = (email) => {
 
 exports.createActivateAccountToken = () => {
     const randomStr = crypto.randomBytes(32).toString('hex');
-    console.log(this);
     
     activateAccount = crypto.createHash('sha256').update(randomStr).digest('hex');
 
@@ -83,4 +82,43 @@ exports.createActivateAccountToken = () => {
         randomStr,
         activateAccount
     }
+}
+
+exports.set1970 = () => {
+    return {
+        validFrom: new Date('1970-02-17'),
+        validTo: new Date('1970-02-20')
+    }
+}
+
+exports.setAccountDetails = (file, user) => {
+    let outFile = file.replace('{%firstName%}', user.firstName);
+    outFile = outFile.replace('{%lastName%}', user.lastName);
+    outFile = outFile.replace('{%email%}', user.email);
+    outFile = outFile.replace('{%phone%}', user.phone || '');
+    outFile = outFile.replace('{%address%}', user.address || '');
+    outFile = outFile.replace('{%city%}', user.city || '');
+    outFile = outFile.replace('{%state%}', user.state || '');
+    outFile = outFile.replace('{%zipCode%}', user.zipCode || '');
+    outFile = outFile.replace('{%country%}', user.country || '');
+
+    return outFile;
+}
+
+exports.sortBody = (body) => {
+    console.log(body);
+    const newBody = {};
+    for(let property in body) {
+        if(property === 'firstName') newBody[property] = body[property];
+        if(property === 'lastName') newBody[property] = body[property];
+        if(property === 'phone') newBody[property] = body[property];
+        if(property === 'address') newBody[property] = body[property];
+        if(property === 'city') newBody[property] = body[property];
+        if(property === 'state') newBody[property] = body[property];
+        if(property === 'zipCode') newBody[property] = body[property];
+        if(property === 'country') newBody[property] = body[property];
+        if(property === 'photo') newBody[property] = body[property];
+    }
+
+    return newBody;
 }
