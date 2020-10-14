@@ -16,14 +16,3 @@ export const hideLoadingPage = () => {
     document.querySelector('.container').style.visibility = 'visible';
     document.querySelector('.container__loading').style.visibility = 'hidden';
 }
-
-export const renderAlertPopup = (message, color) => {
-    // let popup = `<div class="alert-popup--red"></div>`;
-    let popup = document.createElement('div');
-
-    popup.classList.add(`alert-popup`);
-    if(color === 'red') popup.classList.add(`alert-popup--${color}`);
-    popup.textContent = message;
-
-    return popup;
-}

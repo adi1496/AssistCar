@@ -10,6 +10,8 @@ router.get('/login', authController.viewisLoggedIn, viewController.sendLoginPage
 router.get('/signup', authController.viewisLoggedIn, viewController.sendSignupPage);
 router.get('/overview', authController.viewisLoggedIn, viewController.sendOverviewPage);
 router.get('/account-info', authController.viewisLoggedIn, viewController.sendAccountPage);
+router.get('/car-documents', authController.viewisLoggedIn, viewController.sendCarDocumentsPage);
+router.get('/assistance', authController.viewisLoggedIn, viewController.sendAssistancePage);
 
 router.get('/subpage/:subpage', authController.viewisLoggedIn, viewController.sendSubpage);
 

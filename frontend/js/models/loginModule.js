@@ -1,5 +1,5 @@
 // import axios from 'axios';
-import {renderAlertPopup} from './../views/renderPage.js';
+import {showAlertMessages} from './../utils/helpFunctions.js';
 
 export const loginLoad = async () => {
     const domElements = {
@@ -30,19 +30,11 @@ export const loginLoad = async () => {
         console.log(json);
 
         if(json.status === 'fail' || json.status === 'error'){
-            const popup = renderAlertPopup(json.message, 'red');
-            document.querySelector('.content-log-sign').insertAdjacentElement('afterbegin', popup);
             domElements.emailInput.value = '';
             domElements.passwordInput.value = '';
-            setTimeout(() => {
-                document.querySelector('.alert-popup').remove();
-            }, 4000);
+            showAlertMessages(json.status, json.message, 'body', 4, '');
         }else if(json.status === 'success') {
-            const popup = renderAlertPopup('Login successfully', '');
-            document.querySelector('.content-log-sign').insertAdjacentElement('afterbegin', popup);
-            setTimeout(() => {
-                window.location.href = '#overview';
-            }, 3000);
+            showAlertMessages(json.status, 'Login sucessfully...', 'body', 2, '#overview');
         }
 
     });
@@ -114,22 +106,11 @@ export const signupLoad = async () => {
         console.log(json);
 
         if(json.status === 'fail' || json.status === 'error'){
-            const popup = renderAlertPopup(json.message, 'red');
-            document.querySelector('.content-log-sign').insertAdjacentElement('afterbegin', popup);
             dom.password.value = '';
             dom.confirmPassword.value = '';
-            dom.signupBtn.textContent = 'Fail!';
-            dom.signupBtn.style.backgroundColor = 'red';
-            setTimeout(() => {
-                console.log('remove');
-                document.querySelector('.alert-popup').remove();
-                dom.signupBtn.textContent = 'Sign Up';
-                dom.signupBtn.style.backgroundColor = '#E64A19';
-            }, 4000);
+            dom.signupBtn.textContent = 'Sign Up';
+            showAlertMessages(json.status, json.message, 'body', 4, '');
         }else if(json.status === 'success') {
-            const popup = renderAlertPopup('Account created successfully! You can login now...', '');
-            document.querySelector('.content-log-sign').insertAdjacentElement('afterbegin', popup);
-
             dom.firstName.disabled = 'disabled';
             dom.lastName.disabled = 'disabled';
             dom.email.disabled = 'disabled';
@@ -141,9 +122,8 @@ export const signupLoad = async () => {
             dom.signupBtn.removeAttribute('id');
             delete dom.signupBtn;
 
-            setTimeout(() => {
-                document.querySelector('.alert-popup').remove();
-            }, 10000);
+            showAlertMessages(json.status, 'Account created successfully! You can login now...', 'body', 10, '');
         }
+
     });
 }

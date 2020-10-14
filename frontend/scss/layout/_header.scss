@@ -6,7 +6,7 @@
     grid-template-columns: 1fr repeat(3, minmax(min-content, max-content));
     align-items: center;
     // column-gap: 2rem;
-    overflow: hidden;
+    // overflow: hidden;
 
     &__logo {
         margin-left: 1rem;
@@ -38,6 +38,43 @@
 
     &__notification {
         position: relative;
+    }
+
+    &__notification-drop {
+        position: absolute;
+        width: 20rem;
+        top: 7rem;
+        left: -7rem;
+        background-color: $color-text-light;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        z-index: 999;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        opacity: 0;
+        visibility: hidden;
+        transition: all .6s;
+        animation: drop-down-hide .3s ease-out;
+
+        &--active {
+            opacity: 1;
+            visibility: visible;
+            animation: popup-drop .3s;
+        }
+    }
+
+    &__notification-item {
+        color: $color-text-dark;
+        font-size: 1.6rem;
+        margin: 2rem 0;
+        padding: 1rem 2.2rem;
+        align-self: stretch;
+
+        &:hover {
+            background-color: #d1cfcf;
+            color: color;
+        }
     }
 
     &__add-car {

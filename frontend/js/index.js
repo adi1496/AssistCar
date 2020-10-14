@@ -1,17 +1,17 @@
 // import '@babel/polyfill';
 import {renderController} from './controllers/renderController.js';
 import {showloadingPage} from './views/renderPage.js';
-let url;
+let pageRequest;
 if(document.URL.startsWith(`${window.origin}/#`)){
-    url = document.URL.replace(`${window.origin}/#`, '');
+    pageRequest = document.URL.replace(`${window.origin}/#`, '');
 }else {
-    url = 'home';
+    pageRequest = 'home';
 }
 
 showloadingPage();
 
 (async() => {
-    renderController(url);
+    renderController(pageRequest);
 })();
 
 

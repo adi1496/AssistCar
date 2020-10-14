@@ -1,0 +1,93 @@
+        <header class="header">
+            <img src="img/logo.png" alt="logo" class="header__logo">
+            <div class="header__notification">
+                <div class="header__notification-drop">
+                        <div class="header__notification-item">No Notifications</div>
+                </div>
+                <svg class="header__icon">
+                    <use xlink:href="img/svg/notifications.svg#icon-bell"></use>
+                </svg>
+                <svg class="header__icon header__icon--small--red">
+                    <use xlink:href="img/svg/notifications.svg#icon-warning"></use>
+                </svg>
+            </div>
+            <div class="header__add-car">
+                <svg class="header__icon">
+                    <use xlink:href="img/svg/notifications.svg#icon-automobile"></use>
+                </svg>
+                <svg class="header__icon header__icon--small">
+                    <use xlink:href="img/svg/notifications.svg#icon-plus"></use>
+                </svg>
+            </div>
+            <div class="header__user">
+                <img src="{%user-image%}" alt="" class="header__user-photo">
+                <p class="header__user-name">{%userName%}</p>
+            </div>
+            <div class="header__drop-down">
+                <a href="#account-info" class="header__link">Your Account</a>
+                <a href="#car-documents" class="header__link">Your Car Docs</a>
+                <a href="#" class="header__link" id="logout">Log Out</a>
+            </div>
+        </header>
+    
+            <div class="navigation">
+                <ul class="navigation__list navigation__list--overview-user">
+                    <li class="navigation__item" id="overview"><a id="overview-link" href="#overview" class="navigation__link">
+                        <svg class="navigation__icon">
+                            <use xlink:href="img/svg/nav-bar.svg#icon-tv"></use>
+                        </svg>
+                        <span>Overview</span>
+                    </a></li>
+                    <li class="navigation__item" id="account-info"><a id="account-link" href="#account-info" class="navigation__link">
+                        <svg class="navigation__icon">
+                            <use xlink:href="img/svg/nav-bar.svg#icon-account_box"></use>
+                        </svg>
+                        <span>Account info</span>
+                    </a></li>
+                    <li class="navigation__item" id="car-documents"><a id="car-doc-link" href="#car-documents" class="navigation__link">
+                        <svg class="navigation__icon">
+                            <use xlink:href="img/svg/nav-bar.svg#icon-file-text"></use>
+                        </svg>
+                        <span>Car documents</span>
+                    </a></li>
+                    <li class="navigation__item" id="assistance"><a id="call-link" href="#assistance" class="navigation__link">
+                        <svg class="navigation__icon">
+                            <use xlink:href="img/svg/nav-bar.svg#icon-phone"></use>
+                        </svg>
+                        <span>Assistance & Service</span>
+                    </a></li>
+                    <li class="navigation__item"><a href="https://www.carvertical.com/" class="navigation__link">
+                        <svg class="navigation__icon">
+                            <use xlink:href="img/svg/nav-bar.svg#icon-history"></use>
+                        </svg>
+                        Check car history
+                    </a></li>
+                </ul>
+
+                <div class="legal">&copy; 2020 by <a href="#" class="legal__link">Adrian Matei</a>. All rights reserved.</div>
+            </div>
+    
+            <div class="content-account">
+                <div class="gallery">
+                    <figure class="gallery__item">
+                        <img src="img/car-assist.jpg" alt="Gallery photo 1" class="gallery__photo">
+                        <div class="gallery__cover"></div>
+                    </figure>
+    
+                    <figure class="gallery__item">
+                        <img src="img/car-docs.jpg" alt="Gallery photo 2" class="gallery__photo">
+                        <div class="gallery__cover"></div>
+                    </figure>
+    
+    
+                    <figure class="gallery__item">
+                        <img src="img/car-repair.jpg" alt="Gallery photo 3" class="gallery__photo">
+                        <div class="gallery__cover"></div>
+                    </figure>
+                </div>
+    
+                <div class="details--account">
+                    Under Construction
+                </div>
+    
+            </div>

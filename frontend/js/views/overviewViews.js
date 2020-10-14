@@ -13,16 +13,31 @@
 const calculateDatePercentLeft = (date1, date2) => {
     let dateNow = new Date(Date.now());
     let percent = ((date2.getTime() - dateNow.getTime()) * 100) / (date2.getTime() - date1.getTime());
-    percent = Math.floor(100 - percent);
+    if(dateNow.getTime() < date1.getTime()){
+        percent = 0;
+    }else if(dateNow.getTime() > date2.getTime()){
+        percent = 100;
+    }else {
+        percent = Math.floor(100 - percent);
+    }
 
     return percent;
 }
 
-const changeDateFormat = date => {
-    return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+const changeDateFormat = (date) => {
+    const month = date.getMonth() + 1 < 10  ? `0${date.getMonth() + 1}` : `${date.getMonth() + 1}`;
+    const day = date.getDate() < 10  ? `0${date.getDate()}` : `${date.getDate()}`;
+        return `${day}.${month}.${date.getFullYear()}`;
+    
 }
 
 const createElement = (property, element, title) => {
+    if(!element.validFrom){
+        console.log('element is null');
+        element = {};
+        element.validFrom = new Date('1970-01-01');
+        element.validTo = new Date('1970-01-01');
+    }
     let date1 = new Date(element.validFrom);
     let date2 = new Date(element.validTo);
     let outElement
@@ -31,7 +46,7 @@ const createElement = (property, element, title) => {
         <div class="details__title">${title}</div>
         <div class="details__valid">${title} -- Not set</span> (<span id="percent-${property}">0%</span>)</div>
         <div class="details__progress" id="progress-${property}"></div>
-        <button class="btn-details">View more</button>
+        <button class="btn-details" id="${property}">View more</button>
         </li>`;
     }else {
         const percent = calculateDatePercentLeft(date1, date2);
@@ -40,9 +55,10 @@ const createElement = (property, element, title) => {
     
         outElement = `<li class="details__item">
         <div class="details__title">${title}</div>
+        <div class="details__valid">Today's date: <span>${changeDateFormat(new Date(Date.now()))}</span></div>
         <div class="details__valid">Valid from <span>${validFrom}</span> to <span>${validTo}</span> (<span id="percent-${property}">${percent}%</span>)</div>
         <div class="details__progress" id="progress-${property}"></div>
-        <button class="btn-details">View more</button>
+        <button class="btn-details" id="${property}">View more</button>
     </li>`;
     }
 
@@ -109,11 +125,67 @@ export const renderOverviewDetails = (cars) => {
     
     
     
-        //SET POPUP SELECT-CAR
-        const dropDownSelectCar = document.querySelector('.popup-select-car');
-        cars.forEach(el => {
-            dropDownSelectCar.insertAdjacentHTML('beforeend', createDropDownElement(el.registerNo, el.brand, el.model));
-        })
+        
     }
 
+}
+
+export const setSelectCarDropDownElements = (cars) => {
+    //SET POPUP SELECT-CAR
+    const dropDownSelectCar = document.querySelector('.popup-select-car');
+    cars.forEach(el => {
+        dropDownSelectCar.insertAdjacentHTML('beforeend', createDropDownElement(el.registerNo, el.brand, el.model));
+    });
+}
+
+
+/*  */
+const changeFormatForCalendarInput = (date) => {
+    const month = date.getMonth() + 1 < 10  ? `0${date.getMonth() + 1}`: `${date.getMonth() + 1}`;
+    const day = date.getDate() < 10  ? `0${date.getDate()}`: `${date.getDate()}`;
+
+    return `${date.getFullYear()}-${month}-${day}`;
+}
+
+const createPopup = (object, id) => {
+    const validFrom = new Date(object.validFrom);
+    const validTo = new Date(object.validTo);
+    const validFromInput = changeFormatForCalendarInput(validFrom);
+    const validToInput = changeFormatForCalendarInput(validTo);
+
+    if(validFrom.getFullYear() === 1970 && validTo.getFullYear() === 1970) {
+        return `<div class="popup-details popup-details--active">
+        <div class="popup-details__container">
+            <div class="popup-details__content">
+                <div class="popup-details__close">&#9876;</div>
+                <div class="popup-details__title">${id.toUpperCase()}</div>
+                <div class="popup-details__valid">Valid from: <span>None</span></div>
+                <input type="date" id="validFrom" value="${validFromInput}" class="popup-details__date">
+                <div class="popup-details__valid">Valid to: <span>None</span></div>
+                <input type="date" id="validTo" value="${validToInput}" class="popup-details__date">
+                <button class="btn-details" id="edit-${id}">Edit</button>
+            </div>
+        </div>
+    </div>`;
+    }else {
+        return `<div class="popup-details popup-details--active">
+        <div class="popup-details__container">
+            <div class="popup-details__content">
+                <div class="popup-details__close">&#9876;</div>
+                <div class="popup-details__title">${id.toUpperCase()}</div>
+                <div class="popup-details__valid">Valid from: <span>${changeDateFormat(validFrom)}</span></div>
+                <input type="date" id="validFrom" value="${validFromInput}" class="popup-details__date">
+                <div class="popup-details__valid">Valid to: <span>${changeDateFormat(validTo)}</span></div>
+                <input type="date" id="validTo" value="${validToInput}" class="popup-details__date">
+                <button class="btn-details" id="edit-${id}">Edit</button>
+            </div>
+        </div>
+    </div>`;
+    }
+}
+
+export const renderPopupDetails = async (jsonObj, id) => {
+    let element = createPopup(jsonObj[id], id);
+
+    document.querySelector('body').insertAdjacentHTML('afterbegin', element);
 }

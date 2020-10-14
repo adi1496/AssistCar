@@ -12,6 +12,8 @@
 
     &__select-car {
         display: flex;
+        max-width: 30rem;
+        max-height: 7rem;
         align-items: center;
         margin-right: 2rem;
 
@@ -40,6 +42,11 @@
     &__heading {
         font-size: 3rem;
         font-weight: 300;
+        max-height: 7rem;
+        overflow-y: hidden;
+        overflow-x: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
         margin: 0;
         padding: 1rem 0;
         text-transform: uppercase;
@@ -63,6 +70,7 @@
         fill: $color-text;
         margin-right: 2rem;
         transition: all .1s;
+        cursor: pointer;
 
         &:active {
             transform: translateY(3px);

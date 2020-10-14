@@ -62,7 +62,8 @@ exports.sendOverviewPage = catchAsync(async(req, res, next) => {
     if(req.isLoggedIn) {
         const user = await User.findById(req.user._id).populate('cars');
         const file = getPage('overview-user-page.xml');
-        console.log(user);
+        if(!file) return next(new AppError('Page not found. Please try again', 404));
+        
         let outFile
     
         console.log(req.hostname);
@@ -110,6 +111,7 @@ exports.sendAccountPage = (req, res, next) => {
     const user = req.user;
     if(req.isLoggedIn === true){
         const file = getPage('account-page.xml');
+        if(!file) return next(new AppError('Page not found. Please try again', 404));
 
         let outFile = file.replace(/{%nav%}/g, 'navigation-account');
         outFile = outFile.replace(/{%legal%}/g, 'legal-account');
@@ -136,28 +138,96 @@ exports.sendAccountPage = (req, res, next) => {
     
 }
 
+exports.sendCarDocumentsPage = (req, res, next) => {
+    // getPage('account-page.xml', 'account')
+    const user = req.user;
+    if(req.isLoggedIn === true){
+        const file = getPage('documents-page.xml');
+        if(!file) return next(new AppError('Page not found. Please try again', 404));
+
+        let outFile;
+        if(user.photo) {
+            outFile = file.replace(/{%user-image%}/g, `http://${req.hostname}:${process.env.PORT}/img/user-img/${user.photo}`);
+        }else {
+            outFile = file.replace(/{%user-image%}/g, `http://${req.hostname}:${process.env.PORT}/img/user-img/user.jpg`);
+        }
+        outFile = outFile.replace('{%userName%}', user.firstName);
+
+        res.status(200).json({
+            status: 'success',
+            listeners: 'documents',
+            page: outFile
+        });
+    }else {
+        res.status(401).json({
+            status: 'notLogged',
+            page: '#login'
+        });
+    }
+    
+}
+
+exports.sendAssistancePage = (req, res, next) => {
+    // getPage('account-page.xml', 'account')
+    const user = req.user;
+    if(req.isLoggedIn === true){
+        const file = getPage('assistance-page.xml');
+        if(!file) return next(new AppError('Page not found. Please try again', 404));
+
+        let outFile;
+        if(user.photo) {
+            outFile = file.replace(/{%user-image%}/g, `http://${req.hostname}:${process.env.PORT}/img/user-img/${user.photo}`);
+        }else {
+            outFile = file.replace(/{%user-image%}/g, `http://${req.hostname}:${process.env.PORT}/img/user-img/user.jpg`);
+        }
+        outFile = outFile.replace('{%userName%}', user.firstName);
+
+        res.status(200).json({
+            status: 'success',
+            listeners: 'assistance',
+            page: outFile
+        });
+    }else {
+        res.status(401).json({
+            status: 'notLogged',
+            page: '#login'
+        });
+    }
+    
+}
+
 exports.sendHomePage = (req, res, next) => {
     // getPage('home-page.xml', 'home')
-    const file = getPage('home-page.xml');
+    if (!req.isLoggedIn) {
+        const file = getPage('home-page.xml');
+        if(!file) return next(new AppError('Page not found. Please try again', 404));
 
-    let outFile = file.replace(/{%nav%}/g, 'navigation-log-sign');
-    outFile = outFile.replace(/{%legal%}/g, 'legal-account');
-    outFile = outFile.replace('{%user-1%}', `http://${req.hostname}:${process.env.PORT}/img/user-1.jpg`);
-    outFile = outFile.replace('{%user-2%}', `http://${req.hostname}:${process.env.PORT}/img/user-2.jpg`);
-
-    console.log(outFile);
-
-    res.status(200).json({
-        status: 'success',
-        listeners: 'home',
-        page: outFile
-    });
+        let outFile = file.replace(/{%nav%}/g, 'navigation-log-sign');
+        outFile = outFile.replace(/{%legal%}/g, 'legal-account');
+        outFile = outFile.replace('{%user-1%}', `http://${req.hostname}:${process.env.PORT}/img/user-1.jpg`);
+        outFile = outFile.replace('{%user-2%}', `http://${req.hostname}:${process.env.PORT}/img/user-2.jpg`);
+    
+        console.log(outFile);
+    
+        res.status(200).json({
+            status: 'success',
+            listeners: 'home',
+            page: outFile
+        });
+    }else {
+        res.status(401).json({
+            status: 'logged',
+            page: '#overview'
+        })
+    }
+    
 }
 
 exports.sendSignupPage = (req, res, next) => {
     // getPage('signup-page.xml', 'signup')
     if(req.isLoggedIn === false){
         const file = getPage('signup-page.xml');
+        if(!file) return next(new AppError('Page not found. Please try again', 404));
 
         let outFile = file.replace(/{%nav%}/g, 'navigation-log-sign');
         outFile = outFile.replace(/{%legal%}/g, 'legal-account');
@@ -180,6 +250,7 @@ exports.sendLoginPage = (req, res, next) => {
     // getPage('login-page.xml', 'login')
     if(req.isLoggedIn === false){
         const file = getPage('login-page.xml');
+        if(!file) return next(new AppError('Page not found. Please try again', 404));
 
         let outFile = file.replace(/{%nav%}/g, 'navigation-log-sign');
         outFile = outFile.replace(/{%legal%}/g, 'legal-account');

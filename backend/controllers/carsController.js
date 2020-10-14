@@ -137,4 +137,23 @@ exports.findMyCar = catchAsync(async(req, res, next) => {
         status: 'success',
         car
     });
-})
+});
+
+exports.updateMyCar = catchAsync(async(req, res, next) => {
+    console.log(req.body);
+    if(req.body.company) delete req.body.company;
+    if(req.body.owner) delete req.body.owner;
+
+    const car = await Model.findOne({registerNo: req.params.target});
+
+    if(!car) return next(new AppError('Falied to update car! Please try again', 400));
+
+    car[req.params.prop] = req.body.data;
+
+    await car.save({validateBeforeSave: false});
+
+    res.status(200).json({
+        status: 'success',
+        message: 'Successfully updated data'
+    })
+});

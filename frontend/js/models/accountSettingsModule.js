@@ -1,4 +1,3 @@
-import {renderAlertPopup} from './../views/renderPage.js';
 import {showAlertMessages} from './../utils/helpFunctions.js';
 
 /*************** REMOVE ALL ACTIVE CLASSES FROM PROFILE NAVIGATION ****************/

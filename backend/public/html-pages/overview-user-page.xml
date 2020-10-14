@@ -1,6 +1,9 @@
     <header class="header">
         <img src="img/logo.png" alt="logo" class="header__logo">
         <div class="header__notification">
+            <div class="header__notification-drop">
+                    <div class="header__notification-item">No Notifications</div>
+            </div>
             <svg class="header__icon">
                 <use xlink:href="img/svg/notifications.svg#icon-bell"></use>
             </svg>
@@ -8,6 +11,8 @@
                 <use xlink:href="img/svg/notifications.svg#icon-warning"></use>
             </svg>
         </div>
+        
+        
         <div class="header__add-car">
             <svg class="header__icon">
                 <use xlink:href="img/svg/notifications.svg#icon-automobile"></use>
@@ -47,17 +52,11 @@
                     </svg>
                     <span>Car documents</span>
                 </a></li>
-                <li class="navigation__item" id="call-assistance"><a id="call-link" href="#call-assistance" class="navigation__link">
+                <li class="navigation__item" id="assistance"><a id="call-link" href="#assistance" class="navigation__link">
                     <svg class="navigation__icon">
                         <use xlink:href="img/svg/nav-bar.svg#icon-phone"></use>
                     </svg>
-                    <span>Call assistance</span>
-                </a></li>
-                <li class="navigation__item" id="service-apointment"><a id="service-link" href="#service-apointment" class="navigation__link">
-                    <svg class="navigation__icon">
-                        <use xlink:href="img/svg/nav-bar.svg#icon-phone"></use>
-                    </svg>
-                    <span>service apointment</span>
+                    <span>Assistance & Service</span>
                 </a></li>
                 <li class="navigation__item"><a href="https://www.carvertical.com/" class="navigation__link">
                     <svg class="navigation__icon">

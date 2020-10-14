@@ -1,17 +1,20 @@
-import {renderOverviewDetails} from './../views/overviewViews.js';
+import {renderOverviewDetails, renderPopupDetails} from './../views/overviewViews.js';
+import {getFetchRequests} from './../utils/fetchRequests.js';
 
 /*************** OVERVIEW LISTENERS WHEN USER IS LOGGED IN ****************/
 export const overviewUserLoad = () => {
     const overviewHeading = document.querySelector('.overview__heading');
     const selectCar = document.querySelector('.overview__drop-down');
     const popupSelectCar = document.querySelector('.popup-select-car');
-    const btnDetails = document.querySelectorAll('.btn-details');
-    const popupDetails = document.querySelector('.popup-details');
 
+    const dom = {
+        registerNo: document.querySelector('.overview__register-no'),
+        vin: document.querySelector('.overview__vin'),
+        carName: document.querySelector('.overview__heading')
+    };
 
-
-
-    /******************* POPUP CAR SELECT ******************/
+    // console.log(overviewHeading, selectCar);
+    /******************* DROP-DOWN CAR SELECT ******************/
     [overviewHeading, selectCar].forEach(el => {
         el.addEventListener('click', (event) => {
             event.preventDefault();
@@ -26,35 +29,9 @@ export const overviewUserLoad = () => {
         });
     });
 
-
-
-    /******************* POPUP DETAILS CAR ******************/
-    // OPEN POPUP
-    btnDetails.forEach(el => {
-        el.addEventListener('click', (event) => {
-            event.preventDefault();
-    
-            popupDetails.classList.add('popup-details--active');
-        })
-    });
-
-    //CLOSE POPUP
-    popupDetails.addEventListener('click', event => {
-        // event.preventDefault();
-
-        if(!event.target.classList.contains('popup-details__content')) {
-            popupDetails.classList.remove('popup-details--active');
-        }
-    });
-
-
-
     /******************* CLOSE POPUP WHEN CLICK OUTSIDE ******************/
 
     window.addEventListener('click', (event) => {
-        // event.preventDefault();
-        // console.log(event.target);
-
         // POPUP CAR-SELECTOR
         if(popupSelectCar.classList.contains('popup-select-car--active')) {
             let i = true;
@@ -69,32 +46,97 @@ export const overviewUserLoad = () => {
                 selectCar.classList.remove('overview__drop-down--active');
             }
         }
-
-        // if(!event.target.classList.contains('header__drop-down--active') && !event.target.classList.contains('header__user')) {
-            
-        //     document.querySelector('.header__drop-down').classList.remove('header__drop-down--active');
-        // }
     });
 
     
+    // DROP-DOWN SELECT CAR FROM LIST
     const dropDownSelectCarItems = document.querySelectorAll('.popup-select-car__item');
     dropDownSelectCarItems.forEach( el => {
         el.addEventListener('click', async event => {
-            // event.preventDefault();
-            // console.log(event.target.childNodes[0]);
+            const loading = `<div class="profile-settings__loading"><img src="img/loading.gif" alt="loading img" class="profile-settings__load-img"/></div>`;
+            document.querySelector('.details__list').innerHTML = loading;
             const searchWord = event.target.childNodes[0].textContent;
-            // console.log(searchWord);
-            const response = await fetch(`http://127.0.0.1:3000/api/v1/cars/find-my-car/${searchWord}`, {
-                credentials: 'include'
+
+            const json = await getFetchRequests(`api/v1/cars/find-my-car/${searchWord}`);
+
+            if(json.status === 'success') {
+                popupSelectCar.classList.remove('popup-select-car--active');
+            }
+
+            dom.registerNo.childNodes[2].textContent = json.car.registerNo;
+            dom.vin.childNodes[1].textContent = json.car.vin;
+            dom.carName.textContent = `${json.car.brand} ${json.car.model}`;
+
+            renderOverviewDetails([json.car]);
+            viewMoreDetails();
+        });
+    });
+
+
+
+    // VIEW MORE DETAILS POPUP FOR DETAILS LIST
+    const viewMoreDetails = () => {
+        const viewMore = document.querySelectorAll('.btn-details');
+
+        viewMore.forEach( el => {
+            el.addEventListener('click', async event => {
+                let searchWord = dom.registerNo.childNodes[2].textContent.trim();
+
+                const json = await getFetchRequests(`api/v1/cars/find-my-car/${searchWord}`);
+    
+                renderPopupDetails(json.car, event.target.id);
+    
+                // CLOSE POPUP CAR DETAILS WHEN CLICK OUTSIDE THE POPUP CONTENT
+                document.querySelector('.popup-details').addEventListener('click', event2 => {
+
+                    if(event2.target.classList.contains('popup-details')) {
+                        document.querySelector('.popup-details').remove('popup-details--active');
+                    }
+                });
+    
+                // CLOSE POPUP CAR DETAILS WHEN PRESS CLOSE ICON
+                document.querySelector('.popup-details__close').addEventListener('click', event3 => {
+                    
+                    document.querySelector('.popup-details').remove('popup-details--active');
+                });
+    
+                // ADD EVENT LISTENER FOR EDIT BUTTON FROM THE POPUP DETAILS CONTENT
+                const edit = document.getElementById(`edit-${event.target.id}`);
+                edit.addEventListener('click', async event4 => {
+                    const validFrom = document.getElementById('validFrom');
+                    const validTo = document.getElementById('validTo');
+    
+                    const res = await fetch(`http://127.0.0.1:3000/api/v1/cars/update-my-car/${searchWord}/${event.target.id}`, {
+                        method: 'PATCH',
+                        credentials: 'include',
+                        mode: 'cors',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            data: {
+                                validFrom: validFrom.value,
+                                validTo: validTo.value,
+                            }
+                        })
+                    })
+    
+                    const json = await res.json();
+
+                    if(json.status === 'fail' || json.status === 'error'){
+                        showAlertMessages(json.status, json.message, '.content-account', 4, '');
+                    }else if(json.status === 'success') {
+                        showAlertMessages(json.status, 'Data update successfully', '.content-account', 3, 'reload');
+                    }
+    
+                });
+    
+    
             });
+        });
+    }
 
-            let resJson = await response.json();
-            console.log(resJson);
-            document.querySelector('.overview__register-no').childNodes[2].textContent = resJson.car.registerNo;
-            document.querySelector('.overview__vin').childNodes[1].textContent = resJson.car.vin;
-            document.querySelector('.overview__heading').textContent = `${resJson.car.brand} ${resJson.car.model}`;
+    viewMoreDetails();
 
-            renderOverviewDetails([resJson.car]);
-        })
-    })
+    
 }
