@@ -1,4 +1,5 @@
 import {showAlertMessages} from './../utils/helpFunctions.js';
+import {getFetchRequests, patchFetchRequest, postImageRequest} from './../utils/fetchRequests.js';
 
 /*************** REMOVE ALL ACTIVE CLASSES FROM PROFILE NAVIGATION ****************/
 const removeActiveClassProfileNav = (profileNavBtns, profileArrowIcons, class1, class2) => {
@@ -36,6 +37,7 @@ export const accountSettingsLoad = () => {
     const profileSettings = document.querySelector('.profile-settings');
     const profileArrowIcons = document.querySelectorAll('.profile-nav__icon2');
 
+    // Change subpage account setings
     profileNavBtns.forEach( el => {
         el.addEventListener('click', async(event) => {
             event.preventDefault();
@@ -43,11 +45,9 @@ export const accountSettingsLoad = () => {
             const loadingImg = '<div class="profile-settings__loading"><img src="img/loading.gif" alt="loading img" class="profile-settings__load-img"/></div>';
             profileSettings.innerHTML = '';
             profileSettings.innerHTML = loadingImg;
-            
-            const response = await fetch(`http://127.0.0.1:3000/api/v1/pages/subpage/${el.id}`, {
-                credentials: 'include'
-            });
-            const result = await response.json();
+
+            const result = await getFetchRequests(`api/v1/pages/subpage/${el.id}`);
+
             renderProfileSettings(el, profileSettings, result.page);
             if(result.listeners === 'edit-profile') loadEditProfile();
             if(result.listeners === 'password-security') loadPasswordSecurity();
@@ -79,26 +79,17 @@ export const loadEditProfile = () => {
 
         let formData = new FormData();
         formData.append('file', dom.file.files[0]);
-        
-        const response = await fetch('http://127.0.0.1:3000/api/v1/users/upload-my-photo', {
-            method: 'POST',
-            credentials: 'include',
-            mode: 'cors',
-            headers: {
-                // 'Content-Type': 'multipart/form-data'
-            },
-            body: formData
-        });
 
-        const json = await response.json();
+        const json = await postImageRequest('api/v1/users/upload-my-photo', formData);
 
         userPhoto.src = json.photo;
+        document.querySelector('.header__user-photo').src = json.photo;
 
         if(json.status === 'fail' || json.status === 'error'){
             showAlertMessages(json.status, json.message, '.content-account', 4, '');
             dom.saveBtn.textContent = 'Save';
         }else if(json.status === 'success') {
-            showAlertMessages(json.status, 'Photo successfully uploaded', '.content-account', 2, 'reload');
+            showAlertMessages(json.status, 'Photo successfully uploaded', '.content-account', 4, '');
             dom.saveBtn.textContent = 'Save';
         }
 
@@ -109,27 +100,19 @@ export const loadEditProfile = () => {
 
         dom.saveBtn.textContent = 'Loading...';
 
-        const response = await fetch('http://127.0.0.1:3000/api/v1/users/update-me', {
-            method: 'PATCH',
-            credentials: 'include',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                firstName: dom.firstName.value,
-                lastName: dom.lastName.value,
-                email: dom.email.value,
-                phone: dom.phone.value,
-                address: dom.address.value,
-                city: dom.city.value,
-                state: dom.state.value,
-                zipCode: dom.zipCode.value,
-                country: dom.country.value
-            })
-        });
+        const bodyData = {
+            firstName: dom.firstName.value,
+            lastName: dom.lastName.value,
+            email: dom.email.value,
+            phone: dom.phone.value,
+            address: dom.address.value,
+            city: dom.city.value,
+            state: dom.state.value,
+            zipCode: dom.zipCode.value,
+            country: dom.country.value
+        };
 
-        const json = await response.json();
+        const json = await patchFetchRequest('api/v1/users/update-me', bodyData);
 
         console.log(json);
 
@@ -156,23 +139,14 @@ const loadPasswordSecurity = async() => {
         event.preventDefault();
 
         dom.btnUpdate.textContent = 'Loading...';
-        console.log(dom.oldPassword.value);
 
-        const response = await fetch('http://127.0.0.1:3000/api/v1/users/update-password', {
-            method: 'PATCH',
-            mode: 'cors',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                oldPassword: dom.oldPassword.value,
-                password: dom.password.value,
-                confirmPassword: dom.confirmPassword.value
-            })
-        });
+        const bodyData = {
+            oldPassword: dom.oldPassword.value,
+            password: dom.password.value,
+            confirmPassword: dom.confirmPassword.value
+        };
 
-        const json = await response.json();
+        const json = await patchFetchRequest('api/v1/users/update-password', bodyData);
 
         console.log(json);
 

@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 const multer = require('multer');
 const path = require('path');
 
@@ -45,13 +47,24 @@ exports.uploadMyPhoto = catchAsync(async(req, res, next) => {
         }
         const user = req.user;
 
+        if(user.photo){
+            fs.unlink(`${__dirname}/../public/img/user-img/${user.photo}`, err => {
+                if(err) {
+                    console.log(user.photo);
+                    return;
+                }
+
+                // console.log('File removed');
+            });
+        }
+
         user.photo = req.file.filename;
         await user.save({validateBeforeSave: false});
 
         res.status(200).json({
             status: 'success',
             message: 'File Uploaded',
-            photo: `http://${req.hostname}:${process.env.PORT}/public/img/user-img/${user.photo}`
+            photo: `http://${req.hostname}:${process.env.PORT}/img/user-img/${user.photo}`
         });
     })
 });

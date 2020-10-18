@@ -1,5 +1,11 @@
-// import axios from 'axios';
 import {showAlertMessages} from './../utils/helpFunctions.js';
+import {postFetchRequest} from './../utils/fetchRequests.js';
+
+
+
+/*****************************************
+ *                  LOG IN
+ ****************************************/
 
 export const loginLoad = async () => {
     const domElements = {
@@ -11,21 +17,13 @@ export const loginLoad = async () => {
     domElements.loginBtn.addEventListener('click', async(event) => {
         event.preventDefault();
 
-        let response = await fetch('http://127.0.0.1:3000/api/v1/users/login', {
-            method: 'POST',
-            mode: 'cors',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: domElements.emailInput.value,
-                password: domElements.passwordInput.value
-            })
-        });
+        const bodyData = {
+            email: domElements.emailInput.value,
+            password: domElements.passwordInput.value
+        };
         
 
-        let json = await response.json();
+        let json = await postFetchRequest('api/v1/users/login', bodyData);
         // if(json.status === 'success') window.location.href = '#acount-info';
         console.log(json);
 
@@ -40,6 +38,15 @@ export const loginLoad = async () => {
     });
 }
 
+
+
+
+
+/*****************************************
+ *                  SIGN UP
+ ****************************************/
+
+
 const createElement = () => {
     // <div class="log-sign__box">
     //     <label for="last-name" class="log-sign__label">Last Name</label>
@@ -52,7 +59,6 @@ const createElement = () => {
     </div>`
 }
 
-//SIGN UP
 export const signupLoad = async () => {
     const dom = {
         firstName: document.getElementById('first-name'),
@@ -83,25 +89,17 @@ export const signupLoad = async () => {
             
         }
 
-        const response = await fetch('http://127.0.0.1:3000/api/v1/users/signup', {
-            method: 'POST',
-            mode: 'cors',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                firstName: dom.firstName.value,
-                lastName: dom.lastName.value,
-                email: dom.email.value,
-                password: dom.password.value,
-                confirmPassword: dom.confirmPassword.value,
-                isCompany: dom.isCompany.checked,
-                companyName: companyName
-            })
-        });
+        const bodyData = {
+            firstName: dom.firstName.value,
+            lastName: dom.lastName.value,
+            email: dom.email.value,
+            password: dom.password.value,
+            confirmPassword: dom.confirmPassword.value,
+            isCompany: dom.isCompany.checked,
+            companyName: companyName
+        };
 
-        let json = await response.json();
+        let json = await postFetchRequest('api/v1/users/signup', bodyData);
 
         console.log(json);
 
@@ -111,6 +109,8 @@ export const signupLoad = async () => {
             dom.signupBtn.textContent = 'Sign Up';
             showAlertMessages(json.status, json.message, 'body', 4, '');
         }else if(json.status === 'success') {
+            dom.password.value = '**********';
+            dom.confirmPassword.value = '**********';
             dom.firstName.disabled = 'disabled';
             dom.lastName.disabled = 'disabled';
             dom.email.disabled = 'disabled';

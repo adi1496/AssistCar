@@ -1,5 +1,6 @@
+import {showAlertMessages} from './../utils/helpFunctions.js';
 import {renderOverviewDetails, renderPopupDetails} from './../views/overviewViews.js';
-import {getFetchRequests} from './../utils/fetchRequests.js';
+import {getFetchRequests, patchFetchRequest} from './../utils/fetchRequests.js';
 
 /*************** OVERVIEW LISTENERS WHEN USER IS LOGGED IN ****************/
 export const overviewUserLoad = () => {
@@ -13,7 +14,7 @@ export const overviewUserLoad = () => {
         carName: document.querySelector('.overview__heading')
     };
 
-    // console.log(overviewHeading, selectCar);
+
     /******************* DROP-DOWN CAR SELECT ******************/
     [overviewHeading, selectCar].forEach(el => {
         el.addEventListener('click', (event) => {
@@ -30,7 +31,6 @@ export const overviewUserLoad = () => {
     });
 
     /******************* CLOSE POPUP WHEN CLICK OUTSIDE ******************/
-
     window.addEventListener('click', (event) => {
         // POPUP CAR-SELECTOR
         if(popupSelectCar.classList.contains('popup-select-car--active')) {
@@ -53,7 +53,7 @@ export const overviewUserLoad = () => {
     const dropDownSelectCarItems = document.querySelectorAll('.popup-select-car__item');
     dropDownSelectCarItems.forEach( el => {
         el.addEventListener('click', async event => {
-            const loading = `<div class="profile-settings__loading"><img src="img/loading.gif" alt="loading img" class="profile-settings__load-img"/></div>`;
+            const loading = `<div style="grid-column: 1 / 3; text-align: center;"><img src="./../../img/loading.gif" alt="loading img"/></div>`;
             document.querySelector('.details__list').innerHTML = loading;
             const searchWord = event.target.childNodes[0].textContent;
 
@@ -105,28 +105,20 @@ export const overviewUserLoad = () => {
                 edit.addEventListener('click', async event4 => {
                     const validFrom = document.getElementById('validFrom');
                     const validTo = document.getElementById('validTo');
+
+                    const bodyData = {
+                        data: {
+                            validFrom: validFrom.value,
+                            validTo: validTo.value,
+                        }
+                    }
     
-                    const res = await fetch(`http://127.0.0.1:3000/api/v1/cars/update-my-car/${searchWord}/${event.target.id}`, {
-                        method: 'PATCH',
-                        credentials: 'include',
-                        mode: 'cors',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            data: {
-                                validFrom: validFrom.value,
-                                validTo: validTo.value,
-                            }
-                        })
-                    })
-    
-                    const json = await res.json();
+                    const json = await patchFetchRequest(`api/v1/cars/update-my-car/${searchWord}/${event.target.id}`, bodyData);
 
                     if(json.status === 'fail' || json.status === 'error'){
-                        showAlertMessages(json.status, json.message, '.content-account', 4, '');
+                        showAlertMessages(json.status, json.message, 'body', 4, '');
                     }else if(json.status === 'success') {
-                        showAlertMessages(json.status, 'Data update successfully', '.content-account', 3, 'reload');
+                        showAlertMessages(json.status, 'Data update successfully', 'body', 1.5, 'reload');
                     }
     
                 });

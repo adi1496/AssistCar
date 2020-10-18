@@ -10,6 +10,8 @@
 //     let dateNow = new Date(Date.now());
 //     let percent = ((date2.getTime() - dateNow.getTime()) * 100) / (date2.getTime() - date1.getTime());
 //     percent = Math.floor(100 - percent);
+
+/************ CALCULATE PERCENT OF DATES COMPLETION *****************/
 const calculateDatePercentLeft = (date1, date2) => {
     let dateNow = new Date(Date.now());
     let percent = ((date2.getTime() - dateNow.getTime()) * 100) / (date2.getTime() - date1.getTime());
@@ -24,6 +26,8 @@ const calculateDatePercentLeft = (date1, date2) => {
     return percent;
 }
 
+
+/************ CHANGE DATE FORMAT TO EUROPEAN FORMAT *****************/
 const changeDateFormat = (date) => {
     const month = date.getMonth() + 1 < 10  ? `0${date.getMonth() + 1}` : `${date.getMonth() + 1}`;
     const day = date.getDate() < 10  ? `0${date.getDate()}` : `${date.getDate()}`;
@@ -31,6 +35,7 @@ const changeDateFormat = (date) => {
     
 }
 
+/************ CREATE DETAILS BOX FOR OVERVIEW *****************/
 const createElement = (property, element, title) => {
     if(!element.validFrom){
         console.log('element is null');
@@ -66,11 +71,21 @@ const createElement = (property, element, title) => {
     return outElement;
 }
 
+
+/************ CREATE DROP-DOWN SELECT-CAR ITEM *****************/
 const createDropDownElement = (registerNo, brand, model) => {
     // <div class="popup-select-car__item">Ford Focus</div>
     return `<div class="popup-select-car__item"><span>${registerNo}</span> ${brand} ${model}</div>`;
 }
 
+
+
+
+
+
+            /***************************************
+ *           RENDER OVERVIEW DETAILS
+            ******************************************/
 export const renderOverviewDetails = (cars) => {
     console.log(cars);
     if(cars.length !== 0){
@@ -130,6 +145,11 @@ export const renderOverviewDetails = (cars) => {
 
 }
 
+
+
+            /***************************************
+ *           CREATE AND POPULATE THE DROP-DOWN ELEMENTS
+            ******************************************/
 export const setSelectCarDropDownElements = (cars) => {
     //SET POPUP SELECT-CAR
     const dropDownSelectCar = document.querySelector('.popup-select-car');
@@ -139,7 +159,8 @@ export const setSelectCarDropDownElements = (cars) => {
 }
 
 
-/*  */
+
+/************ CHANGE DATE FORMAT TO YYYY/MM/DD *****************/
 const changeFormatForCalendarInput = (date) => {
     const month = date.getMonth() + 1 < 10  ? `0${date.getMonth() + 1}`: `${date.getMonth() + 1}`;
     const day = date.getDate() < 10  ? `0${date.getDate()}`: `${date.getDate()}`;
@@ -147,6 +168,12 @@ const changeFormatForCalendarInput = (date) => {
     return `${date.getFullYear()}-${month}-${day}`;
 }
 
+
+
+
+
+
+/************ CREATE POPUP DETAILS *****************/
 const createPopup = (object, id) => {
     const validFrom = new Date(object.validFrom);
     const validTo = new Date(object.validTo);
@@ -184,6 +211,11 @@ const createPopup = (object, id) => {
     }
 }
 
+
+
+            /***************************************
+ *           RENDER POPUP DETAILS
+            ******************************************/
 export const renderPopupDetails = async (jsonObj, id) => {
     let element = createPopup(jsonObj[id], id);
 
