@@ -1,4 +1,4 @@
-// import '@babel/polyfill';
+import '@babel/polyfill';
 import {renderController} from './controllers/renderController.js';
 import {showloadingPage} from './views/renderPage.js';
 let pageRequest;
