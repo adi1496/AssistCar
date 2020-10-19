@@ -1,6 +1,6 @@
 node_modules/
 frontend/node_modules/
-frontend/.cacche/
+frontend/.cache/
 frontend/.js/
 frontend/js/index.js
 frontend/js/controllers/
