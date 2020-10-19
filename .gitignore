@@ -3,11 +3,7 @@ node_modules/
 frontend/node_modules/
 frontend/.cache/
 frontend/.js/
-frontend/js/index.js
-frontend/js/controllers/
-frontend/js/models/
-frontend/js/utils/
-frontend/js/views/
+frontend/.DS_Store
 backend/*.env
 backend/node_modules/
 .DS_Store
