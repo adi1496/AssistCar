@@ -24,7 +24,7 @@ app.use(cors({
 }));
 app.use(morgan('dev'));
 app.use(cookieParser());
-app.use(express.static(`${__dirname}/public`));
+app.use(express.static('public'));
 
 
 app.use('/api/v1/pages', viewRoutes);
