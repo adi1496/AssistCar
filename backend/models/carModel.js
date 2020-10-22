@@ -66,36 +66,69 @@ const carSchema = new mongoose.Schema({
     ],
 
     insurance: {
-        validFrom: Date,
-        validTo: Date,
-        // paperPicture: String
+        validFrom: {
+            type: Date,
+            default: new Date('1970-02-17')
+        },
+        validTo: {
+            type: Date,
+            default: new Date('1970-02-20')
+        }
     },
 
     casco: {
-        validFrom: Date,
-        validTo: Date,
-        // paperPicture: String
+        validFrom: {
+            type: Date,
+            default: new Date('1970-02-17')
+        },
+        validTo: {
+            type: Date,
+            default: new Date('1970-02-20')
+        }
     },
 
     tehnicalInspection: {
-        validFrom: Date,
-        validTo: Date,
-        // paperPicture: String
+        validFrom: {
+            type: Date,
+            default: new Date('1970-02-17')
+        },
+        validTo: {
+            type: Date,
+            default: new Date('1970-02-20')
+        }
     },
 
     fireExtinguisher: {
-        validFrom: Date,
-        validTo: Date,
+        validFrom: {
+            type: Date,
+            default: new Date('1970-02-17')
+        },
+        validTo: {
+            type: Date,
+            default: new Date('1970-02-20')
+        }
     },
 
     medicalKit: {
-        validFrom: Date,
-        validTo: Date,
+        validFrom: {
+            type: Date,
+            default: new Date('1970-02-17')
+        },
+        validTo: {
+            type: Date,
+            default: new Date('1970-02-20')
+        }
     },
 
     roadVignete: {
-        validFrom: Date,
-        validTo: Date,
+        validFrom: {
+            type: Date,
+            default: new Date('1970-02-17')
+        },
+        validTo: {
+            type: Date,
+            default: new Date('1970-02-20')
+        }
     },
 
     tires: {

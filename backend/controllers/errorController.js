@@ -1,4 +1,11 @@
+const fs = require('fs');
 const AppError = require('./../utils/appError');
+
+const getPage = fileName => {
+    const file = fs.readFileSync(`${__dirname}/../views/html/${fileName}`, 'utf-8');
+    if(!file) return next(new AppError('Page not found. Please try again', 404));
+    return file;
+}
 
 // Duplicate Errors
 const handleDuplicateError = (error) => {
@@ -47,33 +54,76 @@ const handleJWTError = error => {
 
 
 
+
+
+
+
+
+
+
 /********** Send errors in development env *******/
 const sendErrorDev = (err, req, res) => {
     console.log(err);
 
-    res.status(err.statusCode).json({
-        status: err.status,
-        message: err.message,
-        // err
-    });
+    if(req.originalUrl.startsWith('/api')){
+        res.status(err.statusCode).json({
+            status: err.status,
+            message: err.message,
+            // err
+        });
+
+    }else {
+        let index = getPage('index.html');
+        let file = getPage('components/errorMessage.xml');
+        
+        file = file.replace('{%statusCode%}', err.statusCode);
+        file = file.replace('{%message%}', err.message);
+
+        index = index.replace('{%container-content%}', file)
+        res.status(err.statusCode).send(index);
+    }
 
 }
 
 
 /********** Send errors in production env *******/
 const sendErrorProd = (err, req, res) => {
-    if(err.isOperational) {
-        res.status(err.statusCode).json({
-            status: err.status,
-            message: err.message
-        });
+    if(req.originalUrl.startsWith('/api')){
+        //send json error
+        if(err.isOperational) {
+            res.status(err.statusCode).json({
+                status: err.status,
+                message: err.message
+            });
+        }else {
+            res.status(err.statusCode).json({
+                status: err.status,
+                message: "Sorry, but something went wrong."
+            });
+        }
     }else {
-        res.status(err.statusCode).json({
-            status: err.status,
-            message: "Sorry, but something went wrong."
-        });
+        // Render error to webiste
+        let index = getPage('index.html');
+        let file = getPage('components/errorMessage.xml');
+        file = file.replace('{%statusCode%}', err.statusCode);
+
+        if(err.isOperational) {
+            file = file.replace('{%message%}', err.message);
+        }else {
+            file = file.replace('{%message%}', 'Internal server error');
+        }
+
+        index = index.replace('{%container-content%}', file)
+        res.status(err.statusCode).send(index);
     }
+
 }
+
+
+
+
+
+
 
 
 

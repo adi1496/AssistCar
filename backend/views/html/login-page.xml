@@ -1,0 +1,36 @@
+<header class="header">{%header%}</header>
+    
+<div class="navigation-log-sign">{%navigation-menu%}</div>
+    
+<div class="content-log-sign">
+    <div class="details--log-sign">
+        <div class="log-sign">
+            <div class="log-sign__greeting">
+                <h2 class="log-sign__heading">Welcome back!</h2>
+                <p class="log-sign__text-greeting">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Harum iste dolor autem tempore perspiciatis numquam eligendi.</p>
+            </div>
+
+            <form class="log-sign__form--login">
+                <h3 class="log-sign__title u-margin-bottom-large u-margin-top-large">Hello, friend!</h3>
+
+                <div class="log-sign__box log-sign__box--2col">
+                    <label for="email" class="log-sign__label">E-mail</label>
+                    <input type="email" class="log-sign__input" id="email">
+                </div>
+
+                <div class="log-sign__box log-sign__box--2col">
+                    <label for="password" class="log-sign__label">Password</label>
+                    <input type="password" class="log-sign__input" id="password">
+                </div>
+
+                <button class="btn-sign-log u-margin-top-medium" id="login-btn">Log in</button>
+
+                <a href="#forgot-password" class="log-sign__forgot">Forgot Password?</a>
+
+                <div class="log-sign__toggle-log-sign">Not a member yet? Then 
+                    <a href="/signup" class="log-sign__toggle-link">Sign up</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

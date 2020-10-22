@@ -18,16 +18,32 @@ const app = express();
 
 app.use(express.json( {limit: '10kb'} ));
 //ALLOW REQUESTS FROM EVERYWHERE
+
+// app.use(cors({
+//     origin: 'https://assistcar-client.herokuapp.com',
+//     credentials: true
+// }));
+// app.options('*', cors());
+
 app.use(cors({
     origin: 'http://127.0.0.1:8080',
     credentials: true
 }));
+app.options('*', cors());
+
+// app.use(function (req, res, next) {
+//     res.setHeader('Access-Control-Allow-Origin', '*');
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+//     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+//     res.setHeader('Access-Control-Allow-Credentials', true);
+//     next();});
+
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.static('public'));
 
 
-app.use('/api/v1/pages', viewRoutes);
+app.use('/', viewRoutes);
 app.use('/api/v1/cars', carsRoutes);
 app.use('/api/v1/users', usersRoutes);
 

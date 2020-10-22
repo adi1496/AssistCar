@@ -1,0 +1,105 @@
+<header class="header">{%header%}</header>
+    
+<div class="navigation-account">{%navigation-menu%}</div>
+    
+<div class="content-account">
+    <div class="gallery">{%gallery%}</div>
+
+    <div class="details--account">
+        <ul class="profile-nav">
+            <li class="profile-nav__item">
+                <svg class="profile-nav__icon">
+                    <use xlink:href="img/svg/profile.svg#icon-edit"></use>
+                </svg>
+                <a href="#edit-profile" class="profile-nav__link profile-nav__link--active" id="edit-profile">
+                Edit Profile
+                <svg class="profile-nav__icon2 profile-nav__icon2--active">
+                    <use xlink:href="img/svg/profile.svg#icon-chevron-right"></use>
+                </svg>
+            </a></li>
+            <li class="profile-nav__item">
+                <svg class="profile-nav__icon">
+                    <use xlink:href="img/svg/profile.svg#icon-lock"></use>
+                </svg>
+                <a href="#password-security" class="profile-nav__link profile-nav__link--border" id="password-security">
+                Password and security
+                <svg class="profile-nav__icon2">
+                    <use xlink:href="img/svg/profile.svg#icon-chevron-right"></use>
+                </svg>
+            </a></li>
+            <li class="profile-nav__item">
+                <svg class="profile-nav__icon">
+                    <use xlink:href="img/svg/profile.svg#icon-flow-tree"></use>
+                </svg>
+                <a href="#choose-plan" class="profile-nav__link profile-nav__link--border" id="choose-plan">
+                Choose Plan
+                <svg class="profile-nav__icon2">
+                    <use xlink:href="img/svg/profile.svg#icon-chevron-right"></use>
+                </svg>
+            </a></li>
+            <li class="profile-nav__item">
+                <svg class="profile-nav__icon">
+                    <use xlink:href="img/svg/profile.svg#icon-bell"></use>
+                </svg>
+                <a href="#notifications" class="profile-nav__link profile-nav__link--border2" id="notifications">
+                Notifications
+                <svg class="profile-nav__icon2">
+                    <use xlink:href="img/svg/profile.svg#icon-chevron-right"></use>
+                </svg>
+            </a></li>
+        </ul>
+
+        <div class="profile-settings">
+            <h4 class="profile-settings__title">Edit Profile</h4>
+            <figure class="profile-settings__photo">
+                <svg class="profile-settings__icon-small">
+                    <use xlink:href="img/svg/profile.svg#icon-edit"></use>
+                </svg>
+                <input type="file" name="file" id="file" accept="image/jpeg, image/jpg, image/png"/>
+                <img src="{%user-image%}" alt="profile avatar" class="profile-settings__img">
+            </figure>
+
+            <div class="profile-settings__box">
+                <label for="first-name" class="profile-settings__label">First Name</label>
+                <input type="text" class="profile-settings__input" id="first-name" value="{%firstName%}">
+            </div>
+            <div class="profile-settings__box">
+                <label for="last-name" class="profile-settings__label">Last Name</label>
+                <input type="text" class="profile-settings__input" id="last-name" value="{%lastName%}">
+            </div>
+
+            <div class="profile-settings__box profile-settings__box--2col">
+                <label for="email" class="profile-settings__label">E-mail</label>
+                <input type="email" class="profile-settings__input" id="email" value="{%email%}" disabled>
+            </div>
+            <div class="profile-settings__box profile-settings__box--2col">
+                <label for="phone" class="profile-settings__label">Phone Number</label>
+                <input type="number" class="profile-settings__input" id="phone" value="{%phone%}">
+            </div>
+
+            <div class="profile-settings__box profile-settings__box--2col">
+                <label for="address" class="profile-settings__label">Adress</label>
+                <input type="text" class="profile-settings__input" id="address" value="{%address%}">
+            </div>
+            <div class="profile-settings__box">
+                <label for="city" class="profile-settings__label">City</label>
+                <input type="text" class="profile-settings__input" id="city" value="{%city%}">
+            </div>
+            <div class="profile-settings__box">
+                <label for="state" class="profile-settings__label">State / County</label>
+                <input type="text" class="profile-settings__input" id="state" value="{%state%}">
+            </div>
+            <div class="profile-settings__box">
+                <label for="zip-code" class="profile-settings__label">Zip-Code</label>
+                <input type="text" class="profile-settings__input" id="zip-code" value="{%zipCode%}">
+            </div>
+            <div class="profile-settings__box">
+                <label for="country" class="profile-settings__label">Country</label>
+                <input type="text" class="profile-settings__input" id="country" value="{%country%}">
+            </div>
+
+            <button class="btn-save">Save</button>
+        </div>
+    </div>
+
+</div>

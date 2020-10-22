@@ -1,0 +1,15 @@
+    <figure class="gallery__item">
+        <img src="img/car-assist.jpg" alt="Gallery photo 1" class="gallery__photo">
+        <div class="gallery__cover"></div>
+    </figure>
+
+    <figure class="gallery__item">
+        <img src="img/car-docs.jpg" alt="Gallery photo 2" class="gallery__photo">
+        <div class="gallery__cover"></div>
+    </figure>
+
+
+    <figure class="gallery__item">
+        <img src="img/car-repair.jpg" alt="Gallery photo 3" class="gallery__photo">
+        <div class="gallery__cover"></div>
+    </figure>

@@ -1,0 +1,42 @@
+
+<ul class="{%nav%}__list navigation__list--overview-user">
+
+    <li class="{%nav%}__item" id="home"><a id="home-link" href="/" class="{%nav%}__link">
+        <svg class="{%nav%}__icon">
+            <use xlink:href="img/svg/nav-bar.svg#icon-tv"></use>
+        </svg>
+        <span>Home</span>
+    </a></li>
+    <li class="{%nav%}__item" id="overview"><a id="home-link" href="/overview" class="{%nav%}__link">
+        <svg class="{%nav%}__icon">
+            <use xlink:href="img/svg/nav-bar.svg#icon-tv"></use>
+        </svg>
+        <span>Overview</span>
+    </a></li>
+    <li class="{%nav%}__item" id="account-info"><a id="account-link" href="/account-info" class="{%nav%}__link">
+        <svg class="{%nav%}__icon">
+            <use xlink:href="img/svg/nav-bar.svg#icon-account_box"></use>
+        </svg>
+        <span>Account info</span>
+    </a></li>
+    <li class="{%nav%}__item" id="car-documents"><a id="car-doc-link" href="/car-documents" class="{%nav%}__link">
+        <svg class="{%nav%}__icon">
+            <use xlink:href="img/svg/nav-bar.svg#icon-file-text"></use>
+        </svg>
+        <span>Car documents</span>
+    </a></li>
+    <li class="{%nav%}__item" id="assistance"><a id="call-link" href="/assistance" class="{%nav%}__link">
+        <svg class="{%nav%}__icon">
+            <use xlink:href="img/svg/nav-bar.svg#icon-phone"></use>
+        </svg>
+        <span>Assistance & Service</span>
+    </a></li>
+    <li class="{%nav%}__item"><a href="https://www.carvertical.com/" class="{%nav%}__link">
+        <svg class="{%nav%}__icon">
+            <use xlink:href="img/svg/nav-bar.svg#icon-history"></use>
+        </svg>
+        Check car history
+    </a></li>
+</ul>
+
+<div class="{%legal%}">&copy; 2020 by <a href="#" class="{%legal%}__link">Adrian Matei</a>. All rights reserved.</div>

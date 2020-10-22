@@ -1,0 +1,80 @@
+<header class="header">{%header%}</header>
+<div class="navigation-log-sign">{%navigation-menu%}</div>
+
+<div class="content-home-guest">
+    <div class="gallery">{%gallery%}</div>
+
+    <div class="details--home">
+        <section class="section-head">
+            <h1 class="heading--1">
+                Assistcar
+                <span>Protect your car</span>
+            </h1>
+            <button class="btn-details btn-details--big">Discover More</button>
+        </section>
+
+        <section class="section-features">
+            <div class="section-features__box">
+                <svg class="section-features__icon">
+                    <use xlink:href="img/svg/features.svg#icon-alarm"></use>
+                </svg>
+                <h5 class="section-features__title">Remainders for maintenance and more</h5>
+                <p class="section-features__text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus sed ut doloremque! Deserunt facere, nobis qui provident, suscipit blanditiis amet quia, praesentium culpa asperiores eaque dolorem dolores. Rerum, autem iure.</p>
+            </div>
+            <div class="section-features__box">
+                <svg class="section-features__icon">
+                    <use xlink:href="img/svg/features.svg#icon-phone-call"></use>
+                </svg>
+                <h5 class="section-features__title">Fast assistance</h5>
+                <p class="section-features__text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus sed ut doloremque! Deserunt facere, nobis qui provident, suscipit blanditiis amet quia, praesentium culpa asperiores eaque dolorem dolores. Rerum, autem iure.</p>
+            </div>
+            <div class="section-features__box">
+                <svg class="section-features__icon">
+                    <use xlink:href="img/svg/features.svg#icon-profile"></use>
+                </svg>
+                <h5 class="section-features__title">Apointment for car maintenance</h5>
+                <p class="section-features__text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus sed ut doloremque! Deserunt facere, nobis qui provident, suscipit blanditiis amet quia, praesentium culpa asperiores eaque dolorem dolores. Rerum, autem iure.</p>
+            </div>
+            <div class="section-features__box">
+                <svg class="section-features__icon">
+                    <use xlink:href="img/svg/features.svg#icon-price-tag"></use>
+                </svg>
+                <h5 class="section-features__title">Best price</h5>
+                <p class="section-features__text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus sed ut doloremque! Deserunt facere, nobis qui provident, suscipit blanditiis amet quia, praesentium culpa asperiores eaque dolorem dolores. Rerum, autem iure.</p>
+            </div>
+        </section>
+
+        <section class="section-testimonials">
+            <div class="section-testimonials__box">
+                <figure class="section-testimonials__photo">
+                    <img src="{%user-1%}" alt="user photo 1" class="section-testimonials__img">
+                </figure>
+                <div class="section-testimonials__title">Wow, this platform is amazing!🤩</div>
+                <div class="section-testimonials__text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nam quas harum accusamus possimus libero. Sit hic ratione vitae eaque iure voluptas ea. Consequatur a, odit ab autem sed temporibus saepe.</div>
+                
+            </div>
+
+            <div class="section-testimonials__box">
+                <figure class="section-testimonials__photo">
+                    <img src="{%user-2%}" alt="user photo 1" class="section-testimonials__img">
+                </figure>
+                <div class="section-testimonials__title">I really recomend tihs web-app</div>
+                <div class="section-testimonials__text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nam quas harum accusamus possimus libero. Sit hic ratione vitae eaque iure voluptas ea. Consequatur a, odit ab autem sed temporibus saepe.</div>
+
+            </div>
+        </section>
+
+        <section class="section-go-signup">
+            <div class="section-go-signup__text">
+                What are you waiting for? Go and Sign Up
+            </div>
+            <a href="/signup" class="section-go-signup__signup">
+                <svg class="section-go-signup__log-icon">
+                    <use xlink:href="img/svg/login.svg#icon-add-user"></use>
+                </svg>
+                Sign up
+            </a>
+        </section>
+    </div>
+
+</div>

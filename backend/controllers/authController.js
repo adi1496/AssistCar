@@ -67,21 +67,18 @@ exports.login = catchAsync(async(req, res, next) => {
 
     let token = await createJWT(user._id);
 
-    cookieOptions = {
+    let cookieOptions = {
         maxAge: process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60,
         httpOnly: true
     }
-    if(process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+    
+    if (req.secure === true || req.headers['x-forwarded-proto'] === 'https') cookieOptions.secure = true;
 
-    // if(req.connection.encrypted) {
-    //     cookieOptions.secure = true;
-    // }
+    await res.cookie('jwt', token, cookieOptions);
 
-    console.log(token);
-    res.cookie('jwt', token, cookieOptions);
     res.status(200).json({
         status: 'success',
-        // token
+        token
     });
     
 });

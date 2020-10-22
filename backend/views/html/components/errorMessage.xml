@@ -1,0 +1,7 @@
+<div class="error">
+    <div class="error__status-code">{%statusCode%}</div>
+    <div class="error__title">Oh... Something went wrong!😔</div>
+    <div class="error__message">{%message%}</div>
+
+    <a href="/" class="error__link">Go to Home</a>
+</div>

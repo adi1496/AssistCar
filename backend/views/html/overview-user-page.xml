@@ -1,0 +1,12 @@
+    <header class="header">{%header%}</header>
+
+        <div class="navigation">{%navigation-menu%}</div>
+
+        <div class="content">
+            <div class="gallery">{%gallery%}</div>
+
+            <div class="overview">{%overviewBar%}</div>
+
+            <div class="details">{%details-list%}</div>
+
+        </div>

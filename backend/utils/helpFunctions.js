@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const e = require('express');
 
 exports.firstLetterBig = (element) => {
     let array = element.split('');
@@ -89,20 +90,6 @@ exports.set1970 = () => {
         validFrom: new Date('1970-02-17'),
         validTo: new Date('1970-02-20')
     }
-}
-
-exports.setAccountDetails = (file, user) => {
-    let outFile = file.replace('{%firstName%}', user.firstName);
-    outFile = outFile.replace('{%lastName%}', user.lastName);
-    outFile = outFile.replace('{%email%}', user.email);
-    outFile = outFile.replace('{%phone%}', user.phone || '');
-    outFile = outFile.replace('{%address%}', user.address || '');
-    outFile = outFile.replace('{%city%}', user.city || '');
-    outFile = outFile.replace('{%state%}', user.state || '');
-    outFile = outFile.replace('{%zipCode%}', user.zipCode || '');
-    outFile = outFile.replace('{%country%}', user.country || '');
-
-    return outFile;
 }
 
 exports.sortBody = (body) => {

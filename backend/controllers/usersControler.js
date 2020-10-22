@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 const multer = require('multer');
-const path = require('path');
+// const path = require('path');
 
 const Model = require('./../models/uerModel');
 const Car = require('./../models/carModel');
@@ -48,9 +48,9 @@ exports.uploadMyPhoto = catchAsync(async(req, res, next) => {
         const user = req.user;
 
         if(user.photo){
-            fs.unlink(`${__dirname}/../public/img/user-img/${user.photo}`, err => {
+            fs.unlink(`/img/user-img/${user.photo}`, err => {
                 if(err) {
-                    console.log(user.photo);
+                    // console.log(user.photo);
                     return;
                 }
 
@@ -64,7 +64,7 @@ exports.uploadMyPhoto = catchAsync(async(req, res, next) => {
         res.status(200).json({
             status: 'success',
             message: 'File Uploaded',
-            photo: `http://${req.hostname}:${process.env.PORT}/img/user-img/${user.photo}`
+            photo: `/img/user-img/${user.photo}`
         });
     })
 });

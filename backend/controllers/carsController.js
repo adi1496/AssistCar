@@ -1,7 +1,19 @@
+const fs = require('fs');
+
 const Model = require('./../models/carModel');
+const User = require('./../models/uerModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const helpFunctions = require('./../utils/helpFunctions');
+const createOverview = require('./../utils/createOverview');
+
+
+const getPage = fileName => {
+    const file = fs.readFileSync(`${__dirname}/../views/html/${fileName}`, 'utf-8');
+    if(!file) return next(new AppError('Page not found. Please try again', 404));
+    return file;
+}
+
 
 const setProps = (prop, body) => {
     if(body[prop]) {
@@ -49,8 +61,6 @@ exports.createNewCar = catchAsync(async (req, res, next) => {
         medicalKit: props.medicalKit,
         roadVignete: props.roadVignete
     };
-
-    console.log(req.user);
 
     if(req.user.userRole === 'user') {
         newCar.owner = req.user._id;
@@ -127,17 +137,47 @@ exports.deleteCar = catchAsync(async(req, res, next) => {
 });
 
 exports.findMyCar = catchAsync(async(req, res, next) => {
-    console.log(req.params);
-    const car = await Model.findOne({registerNo: req.params.target}).select('-_id');
-    console.log(car);
+    const user = await User.findById(req.user._id).populate('cars');
+    if(!user) return next(new AppError('Ups, something went wrong. Please login and try again', 500));
+    
+    let car;
+    user.cars.forEach( el => {
+        if(el.registerNo === req.params.target) car = el;
+    });
 
-    if(!car) return next(new AppError('No car found. Please try again', 404));
+    let overviewBar = getPage('components/overviewBar.xml');
+    overviewBar = createOverview.createOverviewBar(overviewBar, user.cars, car);
+    
+    const detailsList = createOverview.createOverviewDetails(car);
 
     res.status(200).json({
         status: 'success',
-        car
+        overviewBar,
+        detailsList
     });
 });
+
+
+
+exports.getCarPropPopup = catchAsync(async(req, res, next) => {
+    const user = await User.findById(req.user._id).populate('cars');
+    if(!user) return next(new AppError('Ups, something went wrong. Please login and try again', 500));
+    
+    let car;
+    user.cars.forEach( el => {
+        if(el.registerNo === req.params.target) car = el;
+    });
+
+    const popup = createOverview.createPopup(car[req.params.prop], req.params.prop);
+    
+    res.status(200).json({
+        status: 'success',
+        popup
+    })
+});
+
+
+
 
 exports.updateMyCar = catchAsync(async(req, res, next) => {
     console.log(req.body);

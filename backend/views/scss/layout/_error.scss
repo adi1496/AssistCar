@@ -1,0 +1,40 @@
+.error {
+    grid-column: 1 / -1;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &__status-code {
+        margin-bottom: 5rem;
+        font-size: 7rem;
+        font-weight: 700;
+        animation: error-status 2s infinite;
+    }
+
+    &__title {
+        font-size: 3rem;
+        margin-bottom: 2rem;
+    }
+
+    &__message {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    &__link:link,
+    &__link:visited {
+        text-decoration: none;
+        outline: none;
+        font-size: 3rem;
+        background-color: $color-primary;
+        border-radius: 10px;
+        color: $color-text-light;
+        padding: 2rem 4rem;
+    }
+
+    &__link:hover {
+        background-color: $color-primary-dark;
+    }
+}

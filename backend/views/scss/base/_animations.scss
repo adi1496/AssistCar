@@ -1,0 +1,168 @@
+// icon notifications
+@keyframes warning {
+    0% {
+        transform: scale(1);
+        box-shadow: none;
+        // opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 1rem 2rem rgba(0,0,0, .25);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: none;
+        opacity: 0;
+    }
+}
+
+// drop-down menu
+@keyframes popup-drop {
+    0% {
+        transform: translateY(-5rem);
+    }
+
+    90% {
+        transform: translateY(.5rem);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+//drop-down menu
+@keyframes popup-hide {
+    0% {
+        transform: translateY(.5rem);
+    }
+
+    70% {
+        height: 1rem;
+    }
+
+    100% {
+        transform: translateY(-5rem);
+    }
+}
+
+@keyframes drop-down-hide {
+    0% {
+        transform: translateY(.5rem);
+    }
+
+    30%{
+        opacity: 0.2;
+    }
+
+    70% {
+        height: 1rem;
+    }
+
+    90% {
+        transform: translateY(-2rem);
+    }
+}
+
+// profile nav items
+@keyframes arrow-right {
+    0% {
+        transform: translateX(0);
+    }
+
+    100%{
+        transform: translateX(5px);
+    }
+}
+
+// log-in button
+@keyframes login-scale {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.5);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+//homepage title
+@keyframes move-from-left {
+    0%{
+        opacity: 0;
+        transform: translateX(-10rem);
+    }
+
+    90%{
+        opacity: 1;
+        transform: translateX(5px);
+    }
+
+    100%{
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+//homepage head-button
+@keyframes move-from-bottom {
+    0%{
+        opacity: 0;
+        transform: translateY(10rem);
+    }
+
+    90%{
+        opacity: 1;
+        transform: translateY(-5px);
+    }
+
+    100%{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+//signup button
+@keyframes change-colors {
+    0% {
+        fill: #bb9a8d;
+    }
+
+    25% {
+        fill: #795548;
+    }
+
+    50% {
+        fill: #392822;
+    }
+
+    75% {
+        fill: #795548;
+    }
+
+    100% {
+        fill: #bb9a8d;
+    }
+}
+
+
+@keyframes error-status {
+    0%{
+        transform: translateY(0);
+    }
+
+    50%{
+        transform: translateY(-10px);
+    }
+
+    100%{
+        transform: translateY(0);
+    }
+}

@@ -15,6 +15,7 @@ router.route('/:id')
 .delete(authController.isLoggedIn, authController.restrictTo('admin'), carsController.deleteCar);
 
 router.get('/find-my-car/:target', authController.isLoggedIn, carsController.findMyCar);
+router.get('/get-popup/:target/:prop', authController.isLoggedIn, carsController.getCarPropPopup);
 router.patch('/update-my-car/:target/:prop', authController.isLoggedIn, carsController.updateMyCar);
 
 module.exports = router;

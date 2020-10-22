@@ -1,55 +1,82 @@
 //Core Modules
 const fs = require('fs');
+
 const User = require('./../models/uerModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const helpFunctions = require('./../utils/helpFunctions');
+const createOverview = require('./../utils/createOverview');
+const accountSubpages = require('./../utils/accountSubpages');
+// const { signUp } = require('./authController');
 
 const getPage = fileName => {
-    return fs.readFileSync(`${__dirname}/../public/html-pages/${fileName}`, 'utf-8');;
+    const file = fs.readFileSync(`${__dirname}/../views/html/${fileName}`, 'utf-8');
+    if(!file) return next(new AppError('Page not found. Please try again', 404));
+    return file;
 }
 
-exports.sendSubpage = (req, res, next) => {
+const changeNavigationClass = (file, navClass, legalClass) => {
+    let outFile = file.replace(/{%nav%}/g, navClass);
+    outFile = outFile.replace(/{%legal%}/g, legalClass);
+    return outFile;
+}
+
+const setImageAndNameHeader = (file, user) => {
+    if(user.photo) {
+        file = file.replace('{%user-image%}', `/img/user-img/${user.photo}`);
+    }else {
+        file = file.replace('{%user-image%}', `/img/user-img/user.jpg`);
+    }
+    file = file.replace('{%userName%}', user.firstName);
+
+    return file;
+}
+
+const creteIndexHTML = (index, page, header, navigation, gallery) => {
+    page = page.replace('{%header%}', header);
+    page = page.replace('{%navigation-menu%}', navigation);
+
+    if(gallery) page = page.replace('{%gallery%}', gallery);
+
+    index = index.replace('{%container-content%}', page);
+    return index;
+}
+
+exports.sendSubPage = (req, res, next) => {
     // console.log(req.params);
     const user = req.user;
     if(req.isLoggedIn){
         if (req.params.subpage === 'edit-profile') {
-            const file = getPage('sub-pages/edit-profile.xml');
-            let outFile;
-            if(user.photo) {
-                outFile = file.replace('{%user-image%}', `http://${req.hostname}:${process.env.PORT}/img/user-img/${user.photo}`);
-            }else {
-                outFile = file.replace('{%user-image%}', `http://${req.hostname}:${process.env.PORT}/img/user-img/user.jpg`);
-            }
+            let file = getPage('sub-pages/edit-profile.xml');
+            file = accountSubpages.createEditProfile(file, user)
 
-            outFile = helpFunctions.setAccountDetails(outFile, user);
-
-            console.log(outFile);
             res.status(200).json({
                 status: 'success',
-                listeners: 'edit-profile',
-                page: outFile
+                file
             });
+
         }else if(req.params.subpage === 'password-security') {
             const file = getPage('sub-pages/password-security.xml');
+
             res.status(200).json({
                 status: 'success',
-                listeners: 'password-security',
-                page: file
+                file
             });
+
         }else if(req.params.subpage === 'choose-plan') {
             const file = getPage('sub-pages/choose-plan.xml');
+            
             res.status(200).json({
                 status: 'success',
-                listeners: 'choose-plan',
-                page: file
+                file
             });
+
         }else if(req.params.subpage === 'notifications') {
             const file = getPage('sub-pages/notifications.xml');
+            
             res.status(200).json({
                 status: 'success',
-                listeners: 'notifications',
-                page: file
+                file
             });
         }
     }
@@ -58,213 +85,168 @@ exports.sendSubpage = (req, res, next) => {
 }
 
 exports.sendOverviewPage = catchAsync(async(req, res, next) => {
-    // console.log(req.isLoggedIn);
     if(req.isLoggedIn) {
+        let index = getPage('index.html');
+        let header = getPage('components/header-logged.xml');
+        let navigation = getPage('components/navigation-logged.xml');
+        const gallery = getPage('components/gallery.xml');
+        let overviewBar = getPage('components/overviewBar.xml');
+        let overview = getPage('overview-user-page.xml');
+
         const user = await User.findById(req.user._id).populate('cars');
-        const file = getPage('overview-user-page.xml');
-        if(!file) return next(new AppError('Page not found. Please try again', 404));
+        if(!user) return next(new AppError('There was a problem, please try again', 500));
         
-        let outFile
-    
-        console.log(req.hostname);
-        if(user.photo) {
-            outFile = file.replace('{%user-image%}', `http://${req.hostname}:${process.env.PORT}/img/user-img/${user.photo}`);
-        }else {
-            outFile = file.replace('{%user-image%}', `http://${req.hostname}:${process.env.PORT}/img/user-img/user.jpg`);
-        }
-        outFile = outFile.replace('{%userName%}', user.firstName);
-
-        if(user.cars[0]){
-            outFile = outFile.replace('{%car-name%}', `${user.cars[0].brand} ${user.cars[0].model}`);
-            outFile = outFile.replace('{%registerNo%}', user.cars[0].registerNo);
-            outFile = outFile.replace('{%vin%}', user.cars[0].vin);
-        }else {
-            outFile = outFile.replace('{%car-name%}', `No Car Registered`);
-            outFile = outFile.replace('{%registerNo%}', '');
-            outFile = outFile.replace('{%vin%}', '');
-        }
         
+        header = setImageAndNameHeader(header, user);
+        navigation = changeNavigationClass(navigation, 'navigation', 'legal');
 
-        let userInfo = {};
-        if(user.company.isCompany === true){
-            userInfo.isCompany = true;
-            userInfo.company = user.company.comapnyName;
-            userInfo.drivers = user.drivers;
+        let car;
+        if(req.params.target){
+            user.cars.forEach( el => {
+                if(req.params.target === el.registerNo) car = el;
+            });
+        }else {
+            car = user.cars[0];
         }
+
+        overviewBar = createOverview.createOverviewBar(overviewBar, user.cars, car);
+        overview = overview.replace('{%overviewBar%}', overviewBar);
+
+        let detailsList = createOverview.createOverviewDetails(car);
+
+        overview = overview.replace('{%details-list%}', detailsList);
+
+        index = creteIndexHTML(index, overview, header, navigation, gallery);
     
-        res.status(200).json({
-            status: 'success',
-            listeners: 'overview-user',
-            page: outFile,
-            cars: user.cars
-        });
+        res.status(200).send(index);
     }else {
-        res.status(401).json({
-            status: 'notLogged',
-            page: '#login'
-        });
+        res.redirect('/login');
     }
 });
 
 exports.sendAccountPage = (req, res, next) => {
-    // getPage('account-page.xml', 'account')
     const user = req.user;
     if(req.isLoggedIn === true){
-        const file = getPage('account-page.xml');
-        if(!file) return next(new AppError('Page not found. Please try again', 404));
+        let index = getPage('index.html');
+        let header = getPage('components/header-logged.xml');
+        let navigation = getPage('components/navigation-logged.xml');
+        const gallery = getPage('components/gallery.xml');
+        let account = getPage('account-page.xml');
 
-        let outFile = file.replace(/{%nav%}/g, 'navigation-account');
-        outFile = outFile.replace(/{%legal%}/g, 'legal-account');
-        if(user.photo) {
-            outFile = outFile.replace(/{%user-image%}/g, `http://${req.hostname}:${process.env.PORT}/img/user-img/${user.photo}`);
-        }else {
-            outFile = outFile.replace(/{%user-image%}/g, `http://${req.hostname}:${process.env.PORT}/img/user-img/user.jpg`);
-        }
-        outFile = outFile.replace('{%userName%}', user.firstName);
+        header = setImageAndNameHeader(header, user);
+        navigation = changeNavigationClass(navigation, 'navigation-account', 'legal-account');
 
-        outFile = helpFunctions.setAccountDetails(outFile, user);
+        account = accountSubpages.createEditProfile(account, user);
 
-        res.status(200).json({
-            status: 'success',
-            listeners: 'account',
-            page: outFile
-        });
+        index = creteIndexHTML(index, account, header, navigation, gallery);
+
+        res.status(200).send(index);
     }else {
-        res.status(401).json({
-            status: 'notLogged',
-            page: '#login'
-        });
+        res.redirect('/login');
     }
     
 }
 
 exports.sendCarDocumentsPage = (req, res, next) => {
-    // getPage('account-page.xml', 'account')
     const user = req.user;
     if(req.isLoggedIn === true){
-        const file = getPage('documents-page.xml');
-        if(!file) return next(new AppError('Page not found. Please try again', 404));
+        let index = getPage('index.html');
+        let header = getPage('components/header-logged.xml');
+        let navigation = getPage('components/navigation-logged.xml');
+        const documents = getPage('documents-page.xml');
 
-        let outFile;
-        if(user.photo) {
-            outFile = file.replace(/{%user-image%}/g, `http://${req.hostname}:${process.env.PORT}/img/user-img/${user.photo}`);
-        }else {
-            outFile = file.replace(/{%user-image%}/g, `http://${req.hostname}:${process.env.PORT}/img/user-img/user.jpg`);
-        }
-        outFile = outFile.replace('{%userName%}', user.firstName);
+        header = setImageAndNameHeader(header, user);
+        navigation = changeNavigationClass(navigation, 'navigation', 'legal');
+        
+        index = creteIndexHTML(index, documents, header, navigation);
 
-        res.status(200).json({
-            status: 'success',
-            listeners: 'documents',
-            page: outFile
-        });
+        res.status(200).send(index);
     }else {
-        res.status(401).json({
-            status: 'notLogged',
-            page: '#login'
-        });
+        res.redirect('/login');
     }
     
 }
 
 exports.sendAssistancePage = (req, res, next) => {
-    // getPage('account-page.xml', 'account')
     const user = req.user;
+    let index = getPage('index.html');
+    const assistencePage = getPage('assistance-page.xml');
+
+    let header, navigation;
     if(req.isLoggedIn === true){
-        const file = getPage('assistance-page.xml');
-        if(!file) return next(new AppError('Page not found. Please try again', 404));
-
-        let outFile;
-        if(user.photo) {
-            outFile = file.replace(/{%user-image%}/g, `http://${req.hostname}:${process.env.PORT}/img/user-img/${user.photo}`);
-        }else {
-            outFile = file.replace(/{%user-image%}/g, `http://${req.hostname}:${process.env.PORT}/img/user-img/user.jpg`);
-        }
-        outFile = outFile.replace('{%userName%}', user.firstName);
-
-        res.status(200).json({
-            status: 'success',
-            listeners: 'assistance',
-            page: outFile
-        });
-    }else {
-        res.status(401).json({
-            status: 'notLogged',
-            page: '#login'
-        });
+        header = getPage('components/header-logged.xml');
+        navigation = getPage('components/navigation-logged.xml');
+    }else{
+        header = getPage('components/header-logged.xml');
+        navigation = getPage('components/navigation-logged.xml');
     }
-    
+
+        header = setImageAndNameHeader(header, user);
+        navigation = changeNavigationClass(navigation, 'navigation', 'legal');
+
+        index = creteIndexHTML(index, assistencePage, header, navigation);
+
+        res.status(200).send(index);
 }
 
 exports.sendHomePage = (req, res, next) => {
-    // getPage('home-page.xml', 'home')
-    if (!req.isLoggedIn) {
-        const file = getPage('home-page.xml');
-        if(!file) return next(new AppError('Page not found. Please try again', 404));
+    let navigation, header;
+    if(req.isLoggedIn){
+        header = getPage('components/header-logged.xml');
+        navigation = getPage('components/navigation-logged.xml');
 
-        let outFile = file.replace(/{%nav%}/g, 'navigation-log-sign');
-        outFile = outFile.replace(/{%legal%}/g, 'legal-account');
-        outFile = outFile.replace('{%user-1%}', `http://${req.hostname}:${process.env.PORT}/img/user-1.jpg`);
-        outFile = outFile.replace('{%user-2%}', `http://${req.hostname}:${process.env.PORT}/img/user-2.jpg`);
-    
-        console.log(outFile);
-    
-        res.status(200).json({
-            status: 'success',
-            listeners: 'home',
-            page: outFile
-        });
+        header = setImageAndNameHeader(header, req.user);
     }else {
-        res.status(401).json({
-            status: 'logged',
-            page: '#overview'
-        })
+        header = getPage('components/header.xml');
+        navigation = getPage('components/navigation.xml');
     }
+    let index = getPage('index.html');
+    const gallery = getPage('components/gallery.xml');
+    let home = getPage('home-page.xml');
+    
+    navigation = changeNavigationClass(navigation, 'navigation-log-sign', 'legal-account');
+
+    home = home.replace('{%user-1%}', `img/user-1.jpg`);
+    home = home.replace('{%user-2%}', `img/user-2.jpg`);
+
+    index = creteIndexHTML(index, home, header, navigation, gallery);
+
+    res.status(200).send(index);
     
 }
 
 exports.sendSignupPage = (req, res, next) => {
-    // getPage('signup-page.xml', 'signup')
     if(req.isLoggedIn === false){
-        const file = getPage('signup-page.xml');
-        if(!file) return next(new AppError('Page not found. Please try again', 404));
+        let index = getPage('index.html');
+        const header = getPage('components/header.xml');
+        let navigation = getPage('components/navigation.xml');
+        let signup = getPage('signup-page.xml');
 
-        let outFile = file.replace(/{%nav%}/g, 'navigation-log-sign');
-        outFile = outFile.replace(/{%legal%}/g, 'legal-account');
+        navigation = changeNavigationClass(navigation, 'navigation-log-sign', 'legal-account');
+
+        index = creteIndexHTML(index, signup, header, navigation);
     
-        res.status(200).json({
-            status: 'success',
-            listeners: 'signup',
-            page: outFile
-        });
+        res.status(200).send(index);
     }else {
-        res.status(401).json({
-            status: 'logged',
-            page: '#overview'
-        });
+        res.redirect('/overview');
     }
     
 }
 
 exports.sendLoginPage = (req, res, next) => {
-    // getPage('login-page.xml', 'login')
     if(req.isLoggedIn === false){
-        const file = getPage('login-page.xml');
-        if(!file) return next(new AppError('Page not found. Please try again', 404));
+        let index = getPage('index.html');
+        const header = getPage('components/header.xml');
+        let navigation = getPage('components/navigation.xml');
+        let login = getPage('login-page.xml');
 
-        let outFile = file.replace(/{%nav%}/g, 'navigation-log-sign');
-        outFile = outFile.replace(/{%legal%}/g, 'legal-account');
-    
-        res.status(200).json({
-            status: 'success',
-            listeners: 'login',
-            page: outFile
-        });
+        navigation = changeNavigationClass(navigation, 'navigation-log-sign', 'legal-account');
+
+        index = creteIndexHTML(index, login, header, navigation);
+
+        res.status(200).send(index);
     }else {
-        res.status(401).json({
-            status: 'logged',
-            page: '#overview'
-        });
+        res.redirect('/overview');
     }
     
 }

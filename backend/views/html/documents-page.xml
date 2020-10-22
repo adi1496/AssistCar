@@ -1,0 +1,11 @@
+<header class="header">{%header%}</header>
+
+<div class="navigation">{%navigation-menu%}</div>
+
+<div class="content">
+
+    <div class="details--account" >
+    <div style="color: orange; font-size: 3rem;">Under Construction</div>
+    </div>
+
+</div>
