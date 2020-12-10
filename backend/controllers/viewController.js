@@ -168,20 +168,20 @@ exports.sendCarDocumentsPage = (req, res, next) => {
 }
 
 exports.sendAssistancePage = (req, res, next) => {
-    const user = req.user;
     let index = getPage('index.html');
     const assistencePage = getPage('assistance-page.xml');
-
+    
     let header, navigation;
-    if(req.isLoggedIn === true){
+    if(req.isLoggedIn){
+        const user = req.user;
         header = getPage('components/header-logged.xml');
         navigation = getPage('components/navigation-logged.xml');
+        header = setImageAndNameHeader(header, user);
     }else{
-        header = getPage('components/header-logged.xml');
-        navigation = getPage('components/navigation-logged.xml');
+        header = getPage('components/header.xml');
+        navigation = getPage('components/navigation.xml');
     }
 
-        header = setImageAndNameHeader(header, user);
         navigation = changeNavigationClass(navigation, 'navigation', 'legal');
 
         index = creteIndexHTML(index, assistencePage, header, navigation);
@@ -249,4 +249,38 @@ exports.sendLoginPage = (req, res, next) => {
         res.redirect('/overview');
     }
     
+}
+
+exports.sendForgotPasswordPage = (req, res, next) => {
+    if(req.isLoggedIn === false){
+        let index = getPage('index.html');
+        const header = getPage('components/header.xml');
+        let navigation = getPage('components/navigation.xml');
+        let forgotPassword = getPage('forgotPassword-page.xml');
+
+        navigation = changeNavigationClass(navigation, 'navigation-log-sign', 'legal-account');
+
+        index = creteIndexHTML(index, forgotPassword, header, navigation);
+
+        res.status(200).send(index);
+    }else {
+        res.redirect('/overview');
+    }
+}
+
+exports.sendResetPassword = (req, res, next) => {
+    if(req.isLoggedIn === false){
+        let index = getPage('index.html');
+        const header = getPage('components/header.xml');
+        let navigation = getPage('components/navigation.xml');
+        let resetPassword = getPage('resetPassword-page.xml');
+
+        navigation = changeNavigationClass(navigation, 'navigation-log-sign', 'legal-account');
+
+        index = creteIndexHTML(index, resetPassword, header, navigation);
+
+        res.status(200).send(index);
+    }else {
+        res.redirect('/overview');
+    }
 }

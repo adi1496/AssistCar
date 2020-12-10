@@ -17,8 +17,6 @@ export const patchFetchRequest = async (urlRequest, bodyData) => {
     try {
         const response = await fetch(`${host}/${urlRequest}`, {
             method: 'PATCH',
-            credentials: 'include',
-            mode: 'cors',
             headers: {
                 'Content-Type': 'application/json'
             },

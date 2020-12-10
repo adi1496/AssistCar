@@ -23,7 +23,7 @@
     <p class="header__user-name">{%userName%}</p>
 </div>
 <div class="header__drop-down">
-    <a href="/account" class="header__link">Your Account</a>
+    <a href="/account-info" class="header__link">Your Account</a>
     <a href="/car-documents" class="header__link">Your Car Docs</a>
     <a href="/" class="header__link" id="logout">Log Out</a>
 </div>
