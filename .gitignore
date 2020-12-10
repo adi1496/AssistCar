@@ -1,4 +1,4 @@
+node_modules
 .cache/
-backend/*.env
-backend/node_modules/
+*.env
 *.DS_Store
