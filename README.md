@@ -8,65 +8,65 @@
 - [x] Config .env file
 - [x] Setup connection to Database
 ### Create the routes and controllers:
-    - [x] cars
-        #### TODO
-        - [x] getAllCars
-        - [x] getOneCar
-        - [x] createNewCar
-        - [x] updateCar
-        - [x] deleteCar
+- [x] cars
+    #### TODO
+    - [x] getAllCars
+    - [x] getOneCar
+    - [x] createNewCar
+    - [x] updateCar
+    - [x] deleteCar
 
-    - [ ] users
-        #### TODO
-        - [ ] getAllUsers
-        - [ ] getOneUser
-        - [ ] createNewUser
-        - [ ] updateUser
-        - [ ] deleteUser
-        - [x] create drivers (leaders only)
-        - [x] add and remove drivers to a car
+- [x] users
+    #### TODO
+    - [ ] getAllUsers
+    - [ ] getOneUser
+    - [ ] createNewUser
+    - [ ] updateUser
+    - [ ] deleteUser
+    - [x] create drivers (leaders only)
+    - [x] add and remove drivers to a car
 
-    - [ ] views
-        #### TODO
-        - [x] send Templates
+- [x] views
+    #### TODO
+    - [x] Templates
+    - [x] Create Pages and send to the client
 
-    - [ ] %future features%
 ### Create Models:
-    - [x] cars + pre/post middlewares
-    - [x] users
-    - [ ] %future features%
+- [x] cars + pre/post middlewares
+- [x] users
+- [ ] %future features%
 
-    #### Error handler
-    - [x] create AppError class
-    - [x] catchAsync function to avoid using try-catch
-    - [x] handle sending production errors vs development errors
-    - [x] unhandledRejection
-    - [x] uncaughtException
-    - [x] SIGTERM
-    - [x] browser rendering errors
+#### Error handler
+- [x] create AppError class
+- [x] catchAsync function to avoid using try-catch
+- [x] handle sending production errors vs development errors
+- [x] unhandledRejection
+- [x] uncaughtException
+- [x] SIGTERM
+- [x] browser rendering errors
 
-    #### Authentication, authorisation and security
-    - [x] signUp
-    - [x] login with JWT
-    - [x] check if user is logged (also if user changed password after login)
-    - [x] forgot Password
-    - [x] resetPassword
-    - [x] user restriction
-    - [x] update password by user
-    - [x] activate account (drivers only)
-    - [ ] Rate Limiting
-    - [ ] Preventing parameter pollution
-    - [ ] Security headers (helmet package)
-    - [ ] Encrypted Passwords (bcryptjs)
-    - [ ] Encrypted reset token (sha256)
-    - [ ] Maximum login attempts
-    - [ ] cookies http only + secure for https
-    - [ ] sanitize user input data
-    - [ ] mongo-sanitize (no sql injections)
-    - [ ] limit body payload in body parser
-    - [ ] confirm user e-mail after creaeting account
-    - [ ] two factor authentication
-    - [ ] prevent parameter polution causing uncaught exceptions (hpp package)
+#### Authentication, authorisation and security
+- [x] signUp
+- [x] login with JWT
+- [x] check if user is logged (also if user changed password after login)
+- [x] forgot Password
+- [x] resetPassword
+- [x] user restriction
+- [x] update password by user
+- [x] activate account (drivers only)
+- [ ] Rate Limiting
+- [ ] Preventing parameter pollution
+- [ ] Security headers (helmet package)
+- [ ] Encrypted Passwords (bcryptjs)
+- [ ] Encrypted reset token (sha256)
+- [ ] Maximum login attempts
+- [ ] cookies http only + secure for https
+- [ ] sanitize user input data
+- [ ] mongo-sanitize (no sql injections)
+- [ ] limit body payload in body parser
+- [ ] confirm user e-mail after creaeting account
+- [ ] two factor authentication
+- [ ] prevent parameter polution causing uncaught exceptions (hpp package)
 
 - [ ] Add features
     #### TODO
@@ -103,8 +103,8 @@
     - [x] Change Password
     - [ ] Notifications
     - [ ] Choose plan
-    - [ ] Forgot Password
-    - [ ] Reset Password
+    - [x] Forgot Password
+    - [x] Reset Password
 
 
 ## Other things to do

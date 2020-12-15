@@ -1,19 +1,19 @@
 <div class="overview__select-car">
 <h3 class="overview__heading">{%car-name%}</h3>
 <svg class="overview__drop-down" id="select-car">
-    <use xlink:href="img/svg/content.svg#icon-circle-down"></use>
+    <use xlink:href="/img/svg/content.svg#icon-circle-down"></use>
 </svg>
 <div class="popup-select-car">{%select-car%}</div>
 </div>
 <div class="overview__register-no">
 <svg class="overview__register-icon">
-    <use xlink:href="img/svg/content.svg#icon-directions_car"></use>
+    <use xlink:href="/img/svg/content.svg#icon-directions_car"></use>
 </svg>
 {%registerNo%}</div>
 <div class="overview__vin"><span>VIN:</span>{%vin%}</div>
 <div class="overview__action">
 <svg class="overview__important">
-    <use xlink:href="img/svg/content.svg#icon-happy"></use>
+    <use xlink:href="/img/svg/content.svg#icon-happy"></use>
 </svg>
 OK
 </div>

@@ -173,7 +173,13 @@ exports.forgotPassowrd = catchAsync(async(req, res, next) => {
 
     await user.save({validateBeforeSave: false});
 
-    let message = `Hello ${user.firstName}. Seems that you forgot your account password. If you would like to change the password, please access this link: \n${req.hostname}:${process.env.PORT}/api/v1/resetPassword/${resetToken}`;
+    let message;
+    if(process.env.NODE_ENV === 'development') {
+        message = `Hello ${user.firstName}. Seems that you forgot your account password. If you would like to change the password, please access this link: \n${req.hostname}:${process.env.PORT}/api/v1/resetPassword/${resetToken}`;
+    }else if(process.env.NODE_ENV === 'production') {
+        message = `Hello ${user.firstName}. Seems that you forgot your account password. If you would like to change the password, please access this link: \n${req.hostname}:${process.env.PORT}/reset-password/${resetToken}`;
+    }
+
     let subject = 'Password reset token. Valid for only 10 minutes';
 
     const mail = new Mail(subject, message, user.email);
@@ -186,6 +192,23 @@ exports.forgotPassowrd = catchAsync(async(req, res, next) => {
     })
 });
 
+// CHECK RESET PASSWORD TOKEN CONTROLLER
+exports.checkResetPasswordToken = catchAsync(async(req, res, next) => {
+    // console.log(req.params);
+    if(!req.params.token) return next(new AppError('Your reset token is invalid', 401));
+
+    const token = crypto.createHash('sha256').update(req.params.token).digest('hex');
+
+    const user = await Model.findOne({passwordResetToken: token});
+    
+    if(!user) return next(new AppError('Your reset token is invalid', 401));
+
+    if(user.passwordResetTokenExpires < Date.now()) next(new AppError('The token has expired. Please go an press again forgot password and wait for e-mail', 400));
+
+    next();
+});
+
+// RESET PASSWORD CONTROLLER
 exports.resetPassword = catchAsync(async(req, res, next) => {
     if(!req.params.token) return next(new AppError('Your reset token is invalid', 401));
 

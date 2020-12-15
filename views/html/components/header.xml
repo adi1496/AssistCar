@@ -1,14 +1,14 @@
 
-<img src="img/logo.png" alt="logo" class="header__logo">
+<img src="/img/logo.png" alt="logo" class="header__logo">
 <a id="login-link" href="/login" class="header__login">
     <svg class="header__log-icon">
-        <use xlink:href="img/svg/login.svg#icon-login"></use>
+        <use xlink:href="/img/svg/login.svg#icon-login"></use>
     </svg>
     Log in
 </a>
 <a id="signup-link" href="/signup" class="header__signup">
     <svg class="header__log-icon">
-        <use xlink:href="img/svg/login.svg#icon-add-user"></use>
+        <use xlink:href="/img/svg/login.svg#icon-add-user"></use>
     </svg>
     Sign Up
 </a>

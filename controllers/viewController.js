@@ -278,6 +278,7 @@ exports.sendResetPassword = (req, res, next) => {
         navigation = changeNavigationClass(navigation, 'navigation-log-sign', 'legal-account');
 
         index = creteIndexHTML(index, resetPassword, header, navigation);
+        index = index.replace('{%token%}', req.params.token);
 
         res.status(200).send(index);
     }else {

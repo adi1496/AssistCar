@@ -129,10 +129,6 @@ const sendErrorProd = (err, req, res) => {
 
 /********** Main error handler function *******/
 module.exports = (err, req, res, next) =>{
-    // res.status(500).json({
-    //     err
-    // });
-    // return false;
     if(err){
         err.statusCode = err.statusCode || 500;
         err.status = err.status || 'error';
@@ -143,7 +139,8 @@ module.exports = (err, req, res, next) =>{
             // res.json({
             //     err: err
             // });
-    
+            
+            // console.log(err._message);
             let error = {...err};
             error.message = err.message;
     
@@ -152,7 +149,7 @@ module.exports = (err, req, res, next) =>{
                 error = handleDuplicateError(error);
             }else if(error.path === '_id') {
                 error = handleIdError(error);
-            }else if(error.name === 'ValidatorError'){
+            }else if(err._message === 'User validation failed'){
                 error = handleValidatorError(error);
             }else if(error.name === 'JsonWebTokenError') {
                 error = handleJWTError(error);

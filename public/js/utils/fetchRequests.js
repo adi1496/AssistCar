@@ -4,7 +4,7 @@ const host = 'http://127.0.0.1:3000';
 
 export const getFetchRequests = async (urlRequest) => {
     try{
-        let response = await fetch(urlRequest);
+        let response = await fetch(`${host}/${urlRequest}`);
 
         return await response.json();
     }catch (err) {
@@ -31,7 +31,7 @@ export const patchFetchRequest = async (urlRequest, bodyData) => {
 
 export const postFetchRequest = async (urlRequest, bodyData) => {
     try {
-        const response = await fetch(urlRequest, {
+        const response = await fetch(`${host}/${urlRequest}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -49,7 +49,7 @@ export const postFetchRequest = async (urlRequest, bodyData) => {
 
 export const postImageRequest = async (urlRequest, bodyData) => {
     try {
-        const response = await fetch(urlRequest, {
+        const response = await fetch(`${host}/${urlRequest}`, {
             method: 'POST',
             headers: {
                 // 'Content-Type': 'application/json'
