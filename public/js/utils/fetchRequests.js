@@ -1,6 +1,7 @@
 
-const host = `https://assistcar.herokuapp.com`;
+// const host = `https://assistcar.herokuapp.com`;
 // const host = 'http://127.0.0.1:3000';
+const host = window.location.origin;
 
 export const getFetchRequests = async (urlRequest) => {
     try{
