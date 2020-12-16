@@ -89,6 +89,11 @@
 - [x] Create randering functions
 
 ### Functionality
+- [x] Header
+    - [ ] Notification Dropdown (is created but without functionality)
+    - [x] Add car button (create a full screen popup where can be added a car)
+    - [x] User button
+
 - [x] Login page
 - [x] Logout button
 - [x] Sign Up page
@@ -106,6 +111,7 @@
     - [x] Forgot Password
     - [x] Reset Password
 
+- [ ] Add New Car popup (created only the popup)
 
 ## Other things to do
 - [ ] Refactor code to eliminate repeating

@@ -1,4 +1,4 @@
-import '@babel/polyfill';
+// import '@babel/polyfill';
 import {homeModule} from './models/homeModule.js';
 import {loginModule} from './models/loginModule.js';
 import {signupModule} from './models/signupModule.js';

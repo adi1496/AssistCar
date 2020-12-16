@@ -9,7 +9,8 @@ export const headerModel = () => {
         headerDropDown: document.querySelector('.header__drop-down'),
         logOutBtn: document.getElementById('logout'),
         headerNotifications: document.querySelector('.header__notification'),
-        headerNotDrop: document.querySelector('.header__notification-drop')
+        headerNotDrop: document.querySelector('.header__notification-drop'),
+        headerAddCar: document.querySelector('.header__add-car')
     };
 
     /************ USER DROP-DOWN MENU ************/
@@ -30,6 +31,21 @@ export const headerModel = () => {
             domElements.headerNotDrop.classList.add('header__notification-drop--active');
         }
     });
+
+
+
+    /************ Header Add Car Icon ************/
+    domElements.headerAddCar.addEventListener('click', event => {
+        event.preventDefault();
+        console.log('clicked');
+        const body = document.body;
+
+        const addCarWindow = document.createElement('div');
+        addCarWindow.classList.add('add-car-window');
+
+        body.insertAdjacentElement('afterbegin', addCarWindow);
+    })
+
 
 
     /************ LOGOUT BUTTON ************/
