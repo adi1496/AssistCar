@@ -12,8 +12,8 @@
     "prefix:css": "postcss --use autoprefixer -b 'last 10 versions' css/style.compiled.css -o css/style.prefix.css",
     "compress:css": "node-sass css/style.prefix.css css/style.css --output-style compressed",
     "build:css": "npm-run-all compile:scss prefix:css compress:css",
-    "watch:js": "parcel watch ./js/index.js --out-dir ./js --out-file bundle.js",
-    "build:js": "parcel build ./js/index.js --out-dir ./js --out-file bundle.js"
+    "watch:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js",
+    "build:js": "parcel build ./public/js/index.js --out-dir ./public/js --out-file bundle.js"
   },
   "author": "Adrian Matei",
   "license": "ISC",
