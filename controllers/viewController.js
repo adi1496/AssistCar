@@ -9,18 +9,21 @@ const createOverview = require('./../utils/createOverview');
 const accountSubpages = require('./../utils/accountSubpages');
 // const { signUp } = require('./authController');
 
+// get the xml file template
 const getPage = fileName => {
     const file = fs.readFileSync(`${__dirname}/../views/html/${fileName}`, 'utf-8');
     if(!file) return next(new AppError('Page not found. Please try again', 404));
     return file;
 }
 
+// set the navigation bar class for different css style
 const changeNavigationClass = (file, navClass, legalClass) => {
     let outFile = file.replace(/{%nav%}/g, navClass);
     outFile = outFile.replace(/{%legal%}/g, legalClass);
     return outFile;
 }
 
+// set the user's name and image in the header
 const setImageAndNameHeader = (file, user) => {
     if(user.photo) {
         file = file.replace('{%user-image%}', `/img/user-img/${user.photo}`);
@@ -32,6 +35,7 @@ const setImageAndNameHeader = (file, user) => {
     return file;
 }
 
+// Put all templates together and create the index page
 const creteIndexHTML = (index, page, header, navigation, gallery) => {
     page = page.replace('{%header%}', header);
     page = page.replace('{%navigation-menu%}', navigation);
@@ -42,6 +46,7 @@ const creteIndexHTML = (index, page, header, navigation, gallery) => {
     return index;
 }
 
+// Subpages for Account page
 exports.sendSubPage = (req, res, next) => {
     // console.log(req.params);
     const user = req.user;
@@ -84,6 +89,7 @@ exports.sendSubPage = (req, res, next) => {
     
 }
 
+// Overview Page
 exports.sendOverviewPage = catchAsync(async(req, res, next) => {
     if(req.isLoggedIn) {
         let index = getPage('index.html');
@@ -124,6 +130,7 @@ exports.sendOverviewPage = catchAsync(async(req, res, next) => {
     }
 });
 
+// Account Page
 exports.sendAccountPage = (req, res, next) => {
     const user = req.user;
     if(req.isLoggedIn === true){
@@ -147,6 +154,7 @@ exports.sendAccountPage = (req, res, next) => {
     
 }
 
+// Car Documents Page
 exports.sendCarDocumentsPage = (req, res, next) => {
     const user = req.user;
     if(req.isLoggedIn === true){
@@ -167,6 +175,7 @@ exports.sendCarDocumentsPage = (req, res, next) => {
     
 }
 
+//Assistance Page
 exports.sendAssistancePage = (req, res, next) => {
     let index = getPage('index.html');
     const assistencePage = getPage('assistance-page.xml');
@@ -189,6 +198,7 @@ exports.sendAssistancePage = (req, res, next) => {
         res.status(200).send(index);
 }
 
+// Home Page
 exports.sendHomePage = (req, res, next) => {
     let navigation, header;
     if(req.isLoggedIn){
@@ -215,6 +225,7 @@ exports.sendHomePage = (req, res, next) => {
     
 }
 
+// Signup Page
 exports.sendSignupPage = (req, res, next) => {
     if(req.isLoggedIn === false){
         let index = getPage('index.html');
@@ -233,6 +244,7 @@ exports.sendSignupPage = (req, res, next) => {
     
 }
 
+//Login Page
 exports.sendLoginPage = (req, res, next) => {
     if(req.isLoggedIn === false){
         let index = getPage('index.html');
@@ -251,6 +263,7 @@ exports.sendLoginPage = (req, res, next) => {
     
 }
 
+// Forgot Password Page
 exports.sendForgotPasswordPage = (req, res, next) => {
     if(req.isLoggedIn === false){
         let index = getPage('index.html');
@@ -268,6 +281,7 @@ exports.sendForgotPasswordPage = (req, res, next) => {
     }
 }
 
+// Reset Password Page
 exports.sendResetPassword = (req, res, next) => {
     if(req.isLoggedIn === false){
         let index = getPage('index.html');

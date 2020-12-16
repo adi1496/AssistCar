@@ -1,4 +1,4 @@
-
+// render alert message
 const renderAlertPopup = (message, color) => {
     let popup = document.createElement('div');
 
@@ -9,6 +9,7 @@ const renderAlertPopup = (message, color) => {
     return popup;
 }
 
+// Show alert messages
 export const showAlertMessages = (status, message, parent, time, reload) => {
     if(status === 'fail' || status === 'error'){
         const popup = renderAlertPopup(message, 'red');
@@ -34,4 +35,13 @@ export const showAlertMessages = (status, message, parent, time, reload) => {
             }, time * 1000);
         }
     }
+}
+
+
+
+
+// SET ACTIVE CLASS NAV ITEM - dipend of the current page
+export const setActiveNavItem = (id) => {
+    const elementClass = document.getElementById(id).classList[0];
+    document.getElementById(id).classList.add(`${elementClass}--active`);
 }
